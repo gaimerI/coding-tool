@@ -123,7 +123,9 @@ document.addEventListener("keydown", (event) => {
         input.selectionStart -= 4;
         event.preventDefault();
     }
-});
+})
+
+input.addEventListener("input", handleInput);
 
 runCodeBtn.addEventListener("click", () => {
     runJavaScript();
@@ -388,4 +390,8 @@ function replaceIframes(text) {
     const iframe = createSafeIframe(url);
     return iframe ? iframe.outerHTML : '<p style="color:red;">Invalid or untrusted iframe source.</p>';
   });
+}
+
+function replaceEmojis(text) {
+  return text.replace(/:\w+:/g, (match) => emojiMap[match] || match);
 }
