@@ -144,8 +144,14 @@ if (localStorage.getItem("dark-mode") === "enabled") {
 
 intervalId = setInterval(updateTimer, 1000);
 
-initializeData();
-handleInput();
+async function main() {
+    await initializeData(); // wait load
+    handleInput(); // now start
+}
+
+// start
+main();
+
 
 
 async function initializeData() {
