@@ -153,7 +153,7 @@ async function initializeData() {
         window.emojiMap = await loadJSON('data/emojiMap.json');
         // Load allowedIframeSources
         window.allowedIframeSources = await loadJSON('data/allowedIframeSources.json');
-        console.log("Emoji Map and Iframe Sources Loaded Successfully", {
+        alert("Emoji Map and Iframe Sources Loaded Successfully", {
             emojiMap,
             allowedIframeSources
         });
