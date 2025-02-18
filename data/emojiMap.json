@@ -1,4 +1,4 @@
-const emojiMap = {
+emojiMap = {
     ":smile:": "😀",
     ":laughing:": "😆",
     ":wink:": "😉",
