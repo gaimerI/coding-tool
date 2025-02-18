@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Tadi Lab</title>
+        <link rel="shortcut icon" href="/favicon.png" />
+        
+        <!-- Open Graph & Twitter Cards -->
+        <meta property="og:image" content="https://todepond.com/lab/og.png" />
+        <meta property="og:title" content="Tadi Lab" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Tadi Lab" />
+        <meta name="twitter:image" content="https://todepond.com/lab/og.png" />
+
+        <!-- Styles -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" />
+        <link rel="stylesheet" href="styles.css" />
+    </head>
+
+    <body>
+        <div id="toolbar">
+            <div>
+                <button class="ui" id="clear">Clear</button>
+                <button class="ui" id="toggle-mode">Dark Mode</button>
+                <button class="ui" id="run-code">Run Code</button>
+                <button class="ui" id="download">Download</button>
+                <input type="file" id="upload" style="display: none;" />
+                <button class="ui" id="upload-btn">Upload</button>
+                <a href="https://gaimeri.github.io/copyright.html">Copyright</a>
+            </div>
+
+            <span id="stats">Words: 0 | Characters: 0</span>
+            <div id="timer">Time spent editing: 00:00:00</div>
+            <button class="ui" id="pause-timer">Pause</button>
+            <button class="ui" id="resume-timer">Resume</button>
+            <button class="ui" id="reset-timer">Reset</button>
+            <button class="ui" id="lap-timer">Lap</button>
+            <button class="ui" id="export-lap">Export Laps</button>
+            <ul class="ui" id="lap-list"></ul>
+        </div>
+
+        <main>
+            <textarea id="input" wrap="off" spellcheck="false"></textarea>
+            <div id="preview"></div>
+        </main>
+
+        <div id="error-output"></div>
+
+        <!-- Scripts -->
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <script src="script.js"></script>
+    </body>
+</html>
