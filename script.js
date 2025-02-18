@@ -158,7 +158,7 @@ async function initializeData() {
             allowedIframeSources
         });
     } catch (error) {
-        console.error("Error loading JSON files:", error);
+        alert("Error loading JSON files:", error);
     }
 }
 
