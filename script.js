@@ -128,12 +128,12 @@ document.addEventListener("keydown", (event) => {
 input.addEventListener("input", handleInput);
 
 runCodeBtn.addEventListener("click", () => {
-    runJavaScript();
-    runTidalCycles();
-    runRust();
+    runJavaScript(); // works in browser
+    runTidalCycles(); // works w/ strudel
+    runRust(); // change compiler to make consolidated
     runCpp(); // works
     runSwift(); // use godbolt
-    runHaskell(); // above
+    runHaskell(); // works
 });
 
 
@@ -389,6 +389,7 @@ function updateStats() {
 }
 
 function createSafeIframe(src) {
+  errorOutput.textContent = "";
   try {
     const url = new URL(src);
     if (!allowedIframeSources.some(allowed => url.origin.startsWith(allowed))) {
