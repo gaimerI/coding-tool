@@ -32,9 +32,9 @@
     ":xml:": "<img class=\"character-image\" src=\"images/xml.svg\" alt=\"XML Icon\">",
     ":yaml:": "<img class=\"character-image\" src=\"images/yaml.svg\" alt=\"YAML Icon\">",
     ":scratch:": "<img class=\"character-image\" src=\"images/scratch.svg\" alt=\"Scratch Icon\">",
-    ":spacetode:": "<img class=\"character-image\" src=\"images/spacetode.svg\" alt=\"SpaceTode Icon\">",
+    ":spacetode:": "<img class=\"character-image\" src=\"images/spacetode.png\" alt=\"SpaceTode Icon\">",
     ":haskell:": "<img class=\"character-image\" src=\"images/haskell.svg\" alt=\"Haskell Icon\">",
-    ":tidalcycles:": "<img class=\"character-image\" src=\"images/tidalcycles.svg\" alt=\"TidalCycles Icon\">",
+    ":tidalcycles:": "<img class=\"character-image\" src=\"images/tidalcycles.png\" alt=\"TidalCycles Icon\">",
     ":clojure:": "<img class=\"character-image\" src=\"images/clojure.svg\" alt=\"Clojure Icon\">",
     ":fsharp:": "<img class=\"character-image\" src=\"images/fsharp.svg\" alt=\"F# Icon\">",
     ":brainfuck:": "<img class=\"character-image\" src=\"images/brainfuck.png\" alt=\"Brainfuck Icon\">",
@@ -50,4 +50,6 @@
     ":bluesky:": "<img class=\"character-image\" src=\"images/bluesky.svg\" alt=\"Bluesky Icon\">",
     ":twitter:": "<img class=\"character-image\" src=\"images/twitter.svg\" alt=\"Twitter Icon\">",
     ":elonmusk:": "<img class=\"character-image\" src=\"images/elonmusk.svg\" alt=\"X (Twitter) Icon\">"
+    ":chatgpt:": "<img class=\"character-image\" src=\"images/chatgpt.svg\" alt=\"ChatGPT Icon\">"
+    
 }
