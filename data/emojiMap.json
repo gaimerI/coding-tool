@@ -45,9 +45,9 @@
     ":wasm:": "<img class=\"character-image\" src=\"images/wasm.svg\" alt=\"WASM Icon\">",
     ":rust:": "<img class=\"character-image\" src=\"images/rust.svg\" alt=\"Rust Icon\">",
 
-    ":pleaseaddgifs:": "<img class=\"character-image\" src=\"https://todepond.com/lab/login/gif.gif\" alt=\"Gifs are not supported\">",
+    ":pleaseaddgifs:": "<img class=\"character-image\" src=\"images/gifs/pleaseaddifs.gif\" alt=\"Gifs are not supported\">",
 
-    ":bluesky:": "<img class=\"character-image\" src=\"https://raw.githubusercontent.com/homarr-labs/dashboard-icons/73d9de43faf014257de9633650c213c6e3d71e6c/svg/bluesky.svg\" alt=\"Bluesky Icon\">",
-    ":twitter:": "<img class=\"character-image\" src=\"https://raw.githubusercontent.com/edent/SuperTinyIcons/d3d6bf112595af3ba4873b5a6900d31fd47aa8f4/images/svg/twitter.svg\" alt=\"Twitter Icon\">",
-    ":elonmusk:": "<img class=\"character-image\" src=\"https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/X_logo_2023.svg/200px-X_logo_2023.svg.png\" alt=\"X (Twitter) Icon\">"
+    ":bluesky:": "<img class=\"character-image\" src=\"images/bluesky.svg\" alt=\"Bluesky Icon\">",
+    ":twitter:": "<img class=\"character-image\" src=\"images/twitter.svg\" alt=\"Twitter Icon\">",
+    ":elonmusk:": "<img class=\"character-image\" src=\"images/elonmusk.svg\" alt=\"X (Twitter) Icon\">"
 }
