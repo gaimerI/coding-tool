@@ -51,5 +51,4 @@
     ":twitter:": "<img class=\"character-image\" src=\"images/twitter.svg\" alt=\"Twitter Icon\">",
     ":elonmusk:": "<img class=\"character-image\" src=\"images/elonmusk.svg\" alt=\"X (Twitter) Icon\">",
     ":chatgpt:": "<img class=\"character-image\" src=\"images/chatgpt.svg\" alt=\"ChatGPT Icon\">"
-    
 }
