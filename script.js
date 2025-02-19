@@ -134,7 +134,7 @@ runCodeBtn.addEventListener("click", () => {
     runCpp(); // works
     runSwift(); // use godbolt
     runHaskell(); // works
-});
+}); // adding more, see wiki
 
 
 input.value = localStorage.getItem("editor-content") || "# Welcome to Tadi Lab\n\nWrite **Markdown**, HTML, and JavaScript here.";
@@ -209,7 +209,7 @@ function pauseTimer() {
     isPaused = true;
     timer.style.color = "red";
     pauseTimerBtn.style.display = "none";
-    resumeTimerBtn.style.display = "inherit";
+    resumeTimerBtn.style.display = "inherit"; // slippy mindset
 }
 
 function resumeTimer() {
@@ -226,7 +226,7 @@ function resetTimer() {
     isPaused = false;
     timer.style.color = "inherit";
     timer.textContent = "Time spent editing: 00:00:00";
-    lapContainer.innerHTML = ""; // Clear lap times
+    lapContainer.innerHTML = ""; // this could be made a prompt
     resumeTimerBtn.style.display = "none";
     pauseTimerBtn.style.display = "inherit";
 }
@@ -408,8 +408,8 @@ function createSafeIframe(src) {
 }
 
 function replaceIframes(text) {
-  return text.replace(/\[iframe src="([^"]+)"\]/g, (match, url) => {
-    const iframe = createSafeIframe(url);
+  return text.replace(/\[iframe src="([^"]+)"\]/g, (match, url) => { // regex matches [iframe src="http(s)://www.url.tld"]
+    const iframe = createSafeIframe(url); // make iframe use "::" instead of "[]"
     return iframe ? iframe.outerHTML : '<p style="color:red;">Invalid or untrusted iframe source.</p>';
   });
 }
