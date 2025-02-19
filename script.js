@@ -350,13 +350,27 @@ function runSwift() {
 }
 
 function runHaskell() {
-    errorOutput.textContent = "";
-    const codeBlocks = preview.querySelectorAll("code.language-haskell");
+  errorOutput.textContent = "";
+  const codeBlocks = preview.querySelectorAll("code.language-haskell");
     codeBlocks.forEach((block) => {
         try {
-            const encodedCode = encodeURIComponent(block.textContent);
+            const userCode = block.textContent;
+
+            const payload = {
+                sessions: [{
+                    id: 1,
+                    language: "haskell",
+                    source: userCode,
+                    compilers: [{
+                        id: "ghc961",
+                        options: ""
+                    }]
+                }]
+            };
+
+            const encodedCode = btoa(JSON.stringify(payload));
             const iframe = document.createElement("iframe");
-            iframe.src = `https://tryhaskell.org/?code=${encodedCode}`;
+            iframe.src = `https://haskell.compiler-explorer.com/clientstate/${encodedCode}`;
             iframe.width = "100%";
             iframe.height = "400px";
             block.replaceWith(iframe);
@@ -365,6 +379,7 @@ function runHaskell() {
         }
     });
 }
+
 
 function updateStats() {
   const text = input.value.trim();
