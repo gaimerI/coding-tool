@@ -130,10 +130,10 @@ input.addEventListener("input", handleInput);
 runCodeBtn.addEventListener("click", () => {
     runJavaScript(); // works in browser
     runTidalCycles(); // works w/ strudel
-    runRust(); // change compiler to make consolidated
-    runCpp(); // works
-    runSwift(); // use godbolt
-    runHaskell(); // works
+    runCode("rust", "r1840"); // change compiler to make consolidated
+    runCode("cpp", "clang_trunk", "-std=c++17"); // works
+    runCode("swift", "swift603"); // use godbolt
+    runCode("haskell", "ghc900") // works
 }); // adding more, see wiki
 
 
@@ -283,27 +283,10 @@ function runTidalCycles() {
     });
 }
 
-function runRust() {
+function runCode(language, compilerId, options = "") {
     errorOutput.textContent = "";
-    const codeBlocks = preview.querySelectorAll("code.language-rust");
-    codeBlocks.forEach((block) => {
-        try {
-            const code = block.textContent;
-            const encodedCode = encodeURIComponent(code);
-            const iframe = document.createElement("iframe");
-            iframe.src = `https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&code=${encodedCode}`;
-            iframe.width = "100%";
-            iframe.height = "400px";
-            block.replaceWith(iframe);
-        } catch (e) {
-            errorOutput.textContent = "Rust Error: " + e.message; // i don't know if this actually does something, since code and its errors are handled by compiler
-        }
-    });
-}
-
-function runCpp() {
-    errorOutput.textContent = "";
-    const codeBlocks = preview.querySelectorAll("code.language-cpp");
+    const codeBlocks = preview.querySelectorAll(`code.language-${language}`);
+    
     codeBlocks.forEach((block) => {
         try {
             const userCode = block.textContent;
@@ -311,71 +294,23 @@ function runCpp() {
             const payload = {
                 sessions: [{
                     id: 1,
-                    language: "c++",
+                    language: language,
                     source: userCode,
                     compilers: [{
-                        id: "clang_trunk",
-                        options: "-std=c++17"
+                        id: compilerId,
+                        options: options
                     }]
                 }]
             };
 
             const encodedCode = btoa(JSON.stringify(payload));
             const iframe = document.createElement("iframe");
-            iframe.src = `https://cpp.compiler-explorer.com/clientstate/${encodedCode}`;
+            iframe.src = `https://${language}.compiler-explorer.com/clientstate/${encodedCode}`;
             iframe.width = "100%";
             iframe.height = "400px";
             block.replaceWith(iframe);
         } catch (e) {
-            errorOutput.textContent = "C++ Error: " + e.message;
-        }
-    });
-}
-
-function runSwift() {
-    errorOutput.textContent = "";
-    const codeBlocks = preview.querySelectorAll("code.language-swift");
-    codeBlocks.forEach((block) => {
-        try {
-            const encodedCode = encodeURIComponent(block.textContent);
-            const iframe = document.createElement("iframe");
-            iframe.src = `https://swiftfiddle.com/?code=${encodedCode}`;
-            iframe.width = "100%";
-            iframe.height = "400px";
-            block.replaceWith(iframe);
-        } catch (e) {
-            errorOutput.textContent = "Swift Error: " + e.message;
-        }
-    });
-}
-
-function runHaskell() {
-  errorOutput.textContent = "";
-  const codeBlocks = preview.querySelectorAll("code.language-haskell");
-    codeBlocks.forEach((block) => {
-        try {
-            const userCode = block.textContent;
-
-            const payload = {
-                sessions: [{
-                    id: 1,
-                    language: "haskell",
-                    source: userCode,
-                    compilers: [{
-                        id: "ghc961",
-                        options: ""
-                    }]
-                }]
-            };
-
-            const encodedCode = btoa(JSON.stringify(payload));
-            const iframe = document.createElement("iframe");
-            iframe.src = `https://haskell.compiler-explorer.com/clientstate/${encodedCode}`;
-            iframe.width = "100%";
-            iframe.height = "400px";
-            block.replaceWith(iframe);
-        } catch (e) {
-            errorOutput.textContent = "Haskell Error: " + e.message;
+            errorOutput.textContent = `${language.charAt(0).toUpperCase() + language.slice(1)} Error: ` + e.message;
         }
     });
 }
