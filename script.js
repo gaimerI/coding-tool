@@ -354,8 +354,8 @@ function createSafeHyperlink(src) {
     }
     const link = document.createElement("a");
     link.href = src;
-    iframe.target = "_blank";
-    link.height = "400px";
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
     return link;
   } catch (e) {
     errorOutput.textContent = "Link Error: " + e.message;
