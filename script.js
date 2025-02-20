@@ -28,7 +28,7 @@ toggleModeBtn.addEventListener("click", () => {
 
 clearBtn.addEventListener("click", () => {
     input.value = "";
-    handleInput();
+    await handleInput();
 });
 
 downloadBtn.addEventListener("click", () => {
@@ -61,7 +61,7 @@ uploadInput.addEventListener("change", (event) => {
         const reader = new FileReader();
         reader.onload = (e) => {
             input.value = e.target.result;
-            handleInput();
+            await handleInput();
         };
         reader.readAsText(file);
     }
@@ -125,7 +125,9 @@ document.addEventListener("keydown", (event) => {
     }
 })
 
-input.addEventListener("input", handleInput);
+input.addEventListener("input", async () => {
+    await handleInput();
+});
 
 runCodeBtn.addEventListener("click", () => {
     runJavaScript(); // works in browser
@@ -148,7 +150,7 @@ intervalId = setInterval(updateTimer, 1000);
 
 async function main() {
     await initializeData(); // wait load
-    handleInput(); // now start
+    await handleInput(); // now start
 }
 
 // start
