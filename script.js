@@ -345,15 +345,40 @@ function createSafeIframe(src) {
   }
 }
 
+function createSafeHyperlink(src) {
+  errorOutput.textContent = "";
+  try {
+    const url = new URL(src);
+    if (!allowedIframeSources.some(allowed => url.origin.startsWith(allowed))) {
+      throw new Error("Link source not allowed.");
+    }
+    const link = document.createElement("a");
+    link.href = src;
+    iframe.target = "_blank";
+    link.height = "400px";
+    return link;
+  } catch (e) {
+    errorOutput.textContent = "Link Error: " + e.message;
+    return null;
+  }
+}
+
 function replaceIframes(text) {
   return text.replace(/:iframe src="([^"]+)":/g, (match, url) => { // regex matches :iframe src="http(s)://www.url.tld":
     const iframe = createSafeIframe(url); // make iframe use "::" instead of "[]" is done
-    return iframe ? iframe.outerHTML : '<p style="color:red;">Invalid or untrusted iframe source.</p>';
+    return iframe ? iframe.outerHTML : '<p style="color:red;">Invalid iframe.</p>';
   });
 }
 
 function replaceIcons(text) {
   return text.replace(/:icon type="([^"]+)":/g, (match, type) => {
     return iconMap[type] || type;
+  });
+}
+
+function replaceLinks(text) {
+  return text.replace(/:link src="([^"]+)":/g, (match, url) => { // regex matches :link src="http(s)://www.url.tld":
+    const link = createSafeHyperlink(url); // could be consolidated with iframe function
+    return link ? link.outerHTML : '<p style="color:red;">Invalid link</p>';
   });
 }
