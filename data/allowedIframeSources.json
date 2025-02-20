@@ -1,7 +1,6 @@
 [
-    "https://www.cpp.compiler-explorer.com",
-    "https://www.godbolt.org",
-    "https://www.todepond.com",
-    "https://www.youtube.com",
-    "https://www.codesandbox.io"
+    "compiler-explorer.com",
+    "godbolt.org",
+    "todepond.com",
+    "youtube.com",
 ]
