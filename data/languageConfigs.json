@@ -1,0 +1,37 @@
+[
+  {
+    "language": "rust",
+    "compiler": "r1840",
+    "flags": ""
+  },
+  {
+    "language": "cpp",
+    "compiler": "clang_trunk",
+    "flags": "-std=c++17"
+  },
+  {
+    "language": "swift",
+    "compiler": "swift603",
+    "flags": ""
+  },
+  {
+    "language": "haskell",
+    "compiler": "ghc900",
+    "flags": ""
+  },
+  {
+    "language": "c",
+    "compiler": "ghc900",
+    "flags": ""
+  },
+  {
+    "language": "csharp",
+    "compiler": "dotnet90csharpcoreclr",
+    "flags": ""
+  },
+  {
+    "language": "fsharp",
+    "compiler": "dotnet90csharpcoreclr",
+    "flags": ""
+  }
+]
