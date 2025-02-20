@@ -346,21 +346,24 @@ function createSafeIframe(src) {
 }
 
 function createSafeHyperlink(src) {
-  errorOutput.textContent = "";
-  try {
-    const url = new URL(src.startsWith('http') ? src : 'https://' + src);
-    if (!allowedIframeSources.some(allowed => url.origin.startsWith(allowed))) {
-      throw new Error("Link source not allowed.");
+    errorOutput.textContent = "";
+    try {
+        if (!/^https?:\/\//i.test(src)) {
+            throw new Error("Invalid URL format.");
+        }
+        const url = new URL(src);
+        if (![...allowedIframeSources].some(allowed => url.origin.startsWith(allowed))) {
+            throw new Error("Link source not allowed.");
+        }
+        const link = document.createElement("a");
+        link.href = url.href;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        return link;
+    } catch (e) {
+        errorOutput.textContent = "Link Error: " + e.message;
+        return null;
     }
-    const link = document.createElement("a");
-    link.href = src;
-    link.target = "_blank";
-    link.rel = "noopener noreferrer";
-    return link;
-  } catch (e) {
-    errorOutput.textContent = "Link Error: " + e.message;
-    return null;
-  }
 }
 
 function replaceIframes(text) {
@@ -377,8 +380,8 @@ function replaceIcons(text) {
 }
 
 function replaceLinks(text) {
-  return text.replace(/:link src="([^"]+)":/g, (match, url) => { // regex matches :link src="http(s)://www.url.tld":
-    const link = createSafeHyperlink(url); // could be consolidated with iframe function
-    return link ? link.outerHTML : '<p style="color:red;">Invalid link</p>';
-  });
+    return text.replace(/:link src="([^"]+)":/g, (match, url) => {
+        const link = createSafeHyperlink(url.trim());
+        return link ? link.outerHTML : '<p style="color:red;">Invalid link</p>';
+    });
 }
