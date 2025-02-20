@@ -130,11 +130,15 @@ input.addEventListener("input", handleInput);
 runCodeBtn.addEventListener("click", () => {
     runJavaScript(); // works in browser
     runTidalCycles(); // works w/ strudel
-    runCode("rust", "r1840"); // change compiler to make consolidated
+    runCode("rust", "r1840"); // works
     runCode("cpp", "clang_trunk", "-std=c++17"); // works
-    runCode("swift", "swift603"); // use godbolt
+    runCode("swift", "swift603"); // works
     runCode("haskell", "ghc900") // works
-}); // adding more, see wiki
+    runCode("c", "ghc900") // works
+    runCode("csharp", "dotnet90csharpcoreclr") // works
+    runCode("cpp", "ghc900") // works
+    runCode("fsharp", "dotnet90csharpcoreclr") // works
+}; // adding more, see wiki
 
 
 input.value = localStorage.getItem("editor-content") || "# Welcome to Tadi Lab\n\nWrite **Markdown**, HTML, and JavaScript here.";
@@ -343,8 +347,8 @@ function createSafeIframe(src) {
 }
 
 function replaceIframes(text) {
-  return text.replace(/\[iframe src="([^"]+)"\]/g, (match, url) => { // regex matches [iframe src="http(s)://www.url.tld"]
-    const iframe = createSafeIframe(url); // make iframe use "::" instead of "[]"
+  return text.replace(/\:iframe src="([^"]+)"\:/g, (match, url) => { // regex matches :iframe src="http(s)://www.url.tld":
+    const iframe = createSafeIframe(url); // make iframe use "::" instead of "[]" is done
     return iframe ? iframe.outerHTML : '<p style="color:red;">Invalid or untrusted iframe source.</p>';
   });
 }
