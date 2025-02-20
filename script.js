@@ -178,7 +178,7 @@ async function loadJSON(url) {
 
 function handleInput() {
   // localStorage.setItem("editor-content", input.value); // commented out, find new way to reduce size
-  const parsedMarkdown = marked.parse(replaceIframes(replaceIcons(input.value))); // put emoji replacement before parsing and then iframes
+  const parsedMarkdown = marked.parse(replaceIframes(replaceLinks(replaceIcons(input.value)))); // put emoji replacement before parsing and then iframes
   preview.innerHTML = parsedMarkdown;
   Prism.highlightAll();
   updateStats();
