@@ -127,18 +127,16 @@ document.addEventListener("keydown", (event) => {
 
 input.addEventListener("input", handleInput);
 
-runCodeBtn.addEventListener("click", () => {
+document.getElementById("runCodeBtn").addEventListener("click", () => {
     runJavaScript(); // works in browser
-    runTidalCycles(); // works w/ strudel
-    runCode("rust", "r1840"); // works
-    runCode("cpp", "clang_trunk", "-std=c++17"); // works
-    runCode("swift", "swift603"); // works
-    runCode("haskell", "ghc900") // works
-    runCode("c", "ghc900") // works
-    runCode("csharp", "dotnet90csharpcoreclr") // works
-    runCode("cpp", "ghc900") // works
-    runCode("fsharp", "dotnet90csharpcoreclr") // works
-}; // adding more, see wiki
+    runTidalCycles(); // works with Strudel
+    
+    if (window.languageConfigs) {
+        window.languageConfigs.forEach(config => {
+            runCode(config.language, config.compiler, config.flags);
+        });
+    }
+});
 
 
 input.value = localStorage.getItem("editor-content") || "# Welcome to Tadi Lab\n\nWrite **Markdown**, HTML, and JavaScript here.";
@@ -156,19 +154,20 @@ async function main() {
 // start
 main();
 
-
-
 async function initializeData() {
-    try { // Load emojiMap
+    try {
+        // Load required JSON files
         window.emojiMap = await loadJSON('/coding-tool/data/emojiMap.json');
-        // Load allowedIframeSources
         window.allowedIframeSources = await loadJSON('/coding-tool/data/allowedIframeSources.json');
-        console.log("Emoji Map and Iframe Sources Loaded Successfully", {
+        window.languageConfigs = await loadJSON('/coding-tool/data/languageConfigs.json');
+        
+        console.log("Data Loaded Successfully", {
             emojiMap,
-            allowedIframeSources
+            allowedIframeSources,
+            languageConfigs
         });
     } catch (error) {
-        alert("Error loading JSON files:" + error);
+        alert("Error loading JSON files: " + error);
     }
 }
 
