@@ -348,7 +348,7 @@ function createSafeIframe(src) {
 function createSafeHyperlink(src) {
   errorOutput.textContent = "";
   try {
-    const url = new URL(src);
+    const url = new URL(src.startsWith('http') ? src : 'https://' + src);
     if (!allowedIframeSources.some(allowed => url.origin.startsWith(allowed))) {
       throw new Error("Link source not allowed.");
     }
