@@ -127,7 +127,7 @@ document.addEventListener("keydown", (event) => {
 
 input.addEventListener("input", handleInput);
 
-document.getElementById("runCodeBtn").addEventListener("click", () => {
+runCodeBtn.addEventListener("click", () => {
     runJavaScript(); // works in browser
     runTidalCycles(); // works with Strudel
     
@@ -346,7 +346,7 @@ function createSafeIframe(src) {
 }
 
 function replaceIframes(text) {
-  return text.replace(/\:iframe src="([^"]+)"\:/g, (match, url) => { // regex matches :iframe src="http(s)://www.url.tld":
+  return text.replace(/:iframe src="([^"]+)":/g, (match, url) => { // regex matches :iframe src="http(s)://www.url.tld":
     const iframe = createSafeIframe(url); // make iframe use "::" instead of "[]" is done
     return iframe ? iframe.outerHTML : '<p style="color:red;">Invalid or untrusted iframe source.</p>';
   });
