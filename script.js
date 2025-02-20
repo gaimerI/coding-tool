@@ -386,3 +386,26 @@ function replaceLinks(text) {
         return link ? link.outerHTML : '<p style="color:red;">Invalid link</p>';
     });
 }
+
+async function loadExampleCode(markdownText) {
+    const exampleRegex = /:example lang="(\w+)":/;
+    const match = markdownText.match(exampleRegex);
+    if (!match) {
+        return markdownText; // no example tag found, return original text
+    }
+    
+    const lang = match[1];
+    const filePath = `/coding-tool/data/examples/example.${lang}`;
+    try {
+        const response = await fetch(filePath);
+        if (!response.ok) {
+            throw new Error(`Failed to load example for ${lang}`);
+        }
+        const code = await response.text();
+        const formattedCode = `\`\`\`${lang}\n${code}\n\markdownText // replace the example tag with the formatted code block
+        return markdownText.replace(exampleRegex, formattedCode);
+    } catch (error) {
+        console.error("Error loading example:", error);
+        return markdownText.replace(exampleRegex, `**Error loading example for ${lang}**`);
+    }
+}
