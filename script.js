@@ -156,13 +156,13 @@ main();
 
 async function initializeData() {
     try {
-        // Load required JSON files
-        window.emojiMap = await loadJSON('/coding-tool/data/emojiMap.json');
+        // load required JSON files
+        window.iconMap = await loadJSON('/coding-tool/data/emojiMap.json');
         window.allowedIframeSources = await loadJSON('/coding-tool/data/allowedIframeSources.json');
         window.languageConfigs = await loadJSON('/coding-tool/data/languageConfigs.json');
         
         console.log("Data Loaded Successfully", {
-            emojiMap,
+            iconMap,
             allowedIframeSources,
             languageConfigs
         });
@@ -178,7 +178,7 @@ async function loadJSON(url) {
 
 function handleInput() {
   // localStorage.setItem("editor-content", input.value); // commented out, find new way to reduce size
-  const parsedMarkdown = marked.parse(replaceIframes(replaceEmojis(input.value))); // put emoji replacement before parsing and then iframes
+  const parsedMarkdown = marked.parse(replaceIframes(replaceIcons(input.value))); // put emoji replacement before parsing and then iframes
   preview.innerHTML = parsedMarkdown;
   Prism.highlightAll();
   updateStats();
@@ -352,6 +352,8 @@ function replaceIframes(text) {
   });
 }
 
-function replaceEmojis(text) {
-  return text.replace(/:\w+:/g, (match) => emojiMap[match] || match);
+function replaceIcons(text) {
+  return text.replace(/:icon type="([^"]+)":/g, (match, type) => {
+    return iconMap[type] || type;
+  });
 }
