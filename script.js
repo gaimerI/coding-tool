@@ -190,7 +190,7 @@ async function initializeData() {
 
 function handleInput() {
   // localStorage.setItem("editor-content", input.value); // commented out, find new way to reduce size
-  const parsedMarkdown = marked.parse(replaceIframes(replaceLinks(replaceIcons(input.value)))); // put emoji replacement before parsing and then iframes
+  const parsedMarkdown = marked.parse(replaceIframes(replaceLinks(replaceIcons(replaceExamples(input.value))))); // too long
   preview.innerHTML = parsedMarkdown;
   Prism.highlightAll();
   updateStats();
@@ -397,4 +397,18 @@ function replaceLinks(text) {
         const link = createSafeHyperlink(url.trim());
         return link ? link.outerHTML : '<p style="color:red;">Invalid link</p>';
     });
+}
+
+function replaceExamples(text) {
+  return text.replace(/:example lang="([^"]+)":/g, (match, lang) => {
+    const filename = `example.${lang}`;
+    const codeContent = window.exampleFiles && window.exampleFiles[filename];
+    
+    if (codeContent) {
+      return `\n\
+\\`\\` ${lang}\n${codeContent}\n\\`\\``;
+    } else {
+      return '<p style="color:red;">Example not found.</p>';
+    }
+  });
 }
