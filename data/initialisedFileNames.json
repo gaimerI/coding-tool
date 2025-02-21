@@ -11,6 +11,118 @@
         {
             "url": "/coding-tool/data/languageConfigs.json",
             "name": "languageConfigs"
-        }
+        },
+        {
+            "url": "/coding-tool/data/examples/example.bf",
+            "name": "brainfuckFactorialExample"
+        },
+        {
+            "url": "/coding-tool/data/examples/example.c",
+            "name": "cFactorialExample"
+        },
+        {
+            "url": "/coding-tool/data/examples/example.clj",
+            "name": "clojureFactorialExample"
+        },
+        {
+            "url": "/coding-tool/data/examples/example.cpp",
+            "name": "cppFactorialExample"
+        },
+        {
+            "url": "/coding-tool/data/examples/example.cs",
+            "name": "csharpFactorialExample"
+        },
+        {
+            "url": "/coding-tool/data/examples/example.css",
+            "name": "cssFactorialExample"
+        },
+        {
+            "url": "/coding-tool/data/examples/example.fs",
+            "name": "fsharpFactorialExample"
+        },
+        {
+            "url": "/coding-tool/data/examples/example.go",
+            "name": "goFactorialExample"
+        },
+        {
+            "url": "/coding-tool/data/examples/example.hs",
+            "name": "haskellFactorialExample"
+        },
+        {
+            "url": "/coding-tool/data/examples/example.html",
+            "name": "htmlFactorialExample"
+        },
+        {
+            "url": "/coding-tool/data/examples/example.java",
+            "name": "javaFactorialExample"
+        },
+        {
+            "url": "/coding-tool/data/examples/example.js",
+            "name": "javascriptFactorialExample"
+        },
+        {
+            "url": "/coding-tool/data/examples/example.json",
+            "name": "jsonFactorialExample"
+        },
+        {
+            "url": "/coding-tool/data/examples/example.lua",
+            "name": "luaFactorialExample"
+        },
+        {
+            "url": "/coding-tool/data/examples/example.md",
+            "name": "markdownFactorialExample"
+        },
+        {
+            "url": "/coding-tool/data/examples/example.php",
+            "name": "phpFactorialExample"
+        },
+        {
+            "url": "/coding-tool/data/examples/example.ppm",
+            "name": "pietFactorialExample"
+        },
+        {
+            "url": "/coding-tool/data/examples/example.ps1",
+            "name": "powershellFactorialExample"
+        },
+        {
+            "url": "/coding-tool/data/examples/example.py",
+            "name": "pythonFactorialExample"
+        },
+        {
+            "url": "/coding-tool/data/examples/example.regex.js",
+            "name": "regexFactorialExample"
+        },
+        {
+            "url": "/coding-tool/data/examples/example.rs",
+            "name": "rustFactorialExample"
+        },
+        {
+            "url": "/coding-tool/data/examples/example.sh",
+            "name": "bashFactorialExample"
+        },
+        {
+            "url": "/coding-tool/data/examples/example.swift",
+            "name": "swiftFactorialExample"
+        },
+        {
+            "url": "/coding-tool/data/examples/example.tidal.txt",
+            "name": "tidalcyclesFactorialExample"
+        },
+        {
+            "url": "/coding-tool/data/examples/example.ts",
+            "name": "typescriptFactorialExample"
+        },
+        {
+            "url": "/coding-tool/data/examples/example.wat",
+            "name": "webassemblyFactorialExample"
+        },
+        {
+            "url": "/coding-tool/data/examples/example.xml",
+            "name": "xmlFactorialExample"
+        },
+        {
+            "url": "/coding-tool/data/examples/example.yaml",
+            "name": "yamlFactorialExample"
+        },
     ]
 }
