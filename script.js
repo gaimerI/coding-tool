@@ -155,25 +155,34 @@ async function main() {
 main();
 
 async function loadJSON(url) {
-    const response = await fetch(url);
-    if (!response.ok) {
-        throw new Error(`Failed to load ${url}: ${response.statusText}`);
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status} - ${response.statusText}`);
+        }
+        return await response.json();
+    } catch (error) {
+        console.error(`Error loading JSON from ${url}:`, error);
+        throw new Error(`Failed to fetch JSON from ${url}`);
     }
-    return response.json();
 }
 
 async function initializeData() {
     try {
         const config = await loadJSON('/coding-tool/data/initialisedFileNames.json');
-
-        // Create an object to store all example files
         window.exampleFiles = {};
 
         for (const file of config.files) {
-            if (file.name.startsWith("example")) { 
-                window.exampleFiles[file.name] = await loadJSON(file.url);
-            } else {
-                window[file.name] = await loadJSON(file.url);
+            try {
+                const data = await loadJSON(file.url);
+                if (file.name.startsWith("example")) { 
+                    window.exampleFiles[file.name] = data;
+                } else {
+                    window[file.name] = data;
+                }
+            } catch (error) {
+                alert(`Skipping ${file.name} due to error: ${error.message}`);
+                window[file.name] = `Error loading file: ${error.message}`;
             }
         }
 
@@ -184,7 +193,7 @@ async function initializeData() {
             exampleFiles: window.exampleFiles
         });
     } catch (error) {
-        alert("Error loading JSON files: " + error);
+        alert("Critical Error in initializeData:" + error);
     }
 }
 
