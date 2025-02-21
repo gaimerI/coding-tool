@@ -28,7 +28,7 @@ toggleModeBtn.addEventListener("click", () => {
 
 clearBtn.addEventListener("click", () => {
     input.value = "";
-    await handleInput();
+    handleInput();
 });
 
 downloadBtn.addEventListener("click", () => {
@@ -61,7 +61,7 @@ uploadInput.addEventListener("change", (event) => {
         const reader = new FileReader();
         reader.onload = (e) => {
             input.value = e.target.result;
-            await handleInput();
+            handleInput();
         };
         reader.readAsText(file);
     }
@@ -125,9 +125,7 @@ document.addEventListener("keydown", (event) => {
     }
 })
 
-input.addEventListener("input", async () => {
-    await handleInput();
-});
+input.addEventListener("input", handleInput);
 
 runCodeBtn.addEventListener("click", () => {
     runJavaScript(); // works in browser
@@ -150,7 +148,7 @@ intervalId = setInterval(updateTimer, 1000);
 
 async function main() {
     await initializeData(); // wait load
-    await handleInput(); // now start
+    handleInput(); // now start
 }
 
 // start
@@ -387,27 +385,4 @@ function replaceLinks(text) {
         const link = createSafeHyperlink(url.trim());
         return link ? link.outerHTML : '<p style="color:red;">Invalid link</p>';
     });
-}
-
-async function loadExampleCode(markdownText) {
-    const exampleRegex = /:example lang="(\w+)":/;
-    const match = markdownText.match(exampleRegex);
-    if (!match) {
-        return markdownText; // no example tag found, return original text
-    }
-    
-    const lang = match[1];
-    const filePath = `/coding-tool/data/examples/example.${lang}`;
-    try {
-        const response = await fetch(filePath);
-        if (!response.ok) {
-            throw new Error(`Failed to load example for ${lang}`);
-        }
-        const code = await response.text();
-        const formattedCode = `\`\`\`${lang}\n${code}\n\`\`\``; // Correctly formatted code block
-        return markdownText.replace(exampleRegex, formattedCode); // Replace the example tag with the formatted code block
-    } catch (error) {
-        console.error("Error loading example:", error);
-        return markdownText.replace(exampleRegex, `**Error loading example for ${lang}**`);
-    }
 }
