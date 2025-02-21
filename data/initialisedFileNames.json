@@ -1,0 +1,16 @@
+{
+    "files": [
+        {
+            "url": "/coding-tool/data/emojiMap.json",
+            "name": "iconMap"
+        },
+        {
+            "url": "/coding-tool/data/allowedIframeSources.json",
+            "name": "allowedIframeSources"
+        },
+        {
+            "url": "/coding-tool/data/languageConfigs.json",
+            "name": "languageConfigs"
+        }
+    ]
+}
