@@ -123,6 +123,6 @@
         {
             "url": "/coding-tool/data/examples/example.yaml",
             "name": "yamlFactorialExample"
-        },
+        }
     ]
 }
