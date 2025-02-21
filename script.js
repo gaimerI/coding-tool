@@ -154,26 +154,32 @@ async function main() {
 // start
 main();
 
+async function loadJSON(url) {
+    const response = await fetch(url);
+    if (!response.ok) {
+        throw new Error(`Failed to load ${url}: ${response.statusText}`);
+    }
+    return response.json();
+}
+
 async function initializeData() {
     try {
-        // load required JSON files
-        window.iconMap = await loadJSON('/coding-tool/data/emojiMap.json');
-        window.allowedIframeSources = await loadJSON('/coding-tool/data/allowedIframeSources.json');
-        window.languageConfigs = await loadJSON('/coding-tool/data/languageConfigs.json');
+        // Load the configuration file
+        const config = await loadJSON('/coding-tool/data/initialisedFileNames.json');
         
+        // Load each file specified in the configuration
+        for (const file of config.files) {
+            window[file.name] = await loadJSON(file.url);
+        }
+
         console.log("Data Loaded Successfully", {
-            iconMap,
-            allowedIframeSources,
-            languageConfigs
+            iconMap: window.iconMap,
+            allowedIframeSources: window.allowedIframeSources,
+            languageConfigs: window.languageConfigs
         });
     } catch (error) {
         alert("Error loading JSON files: " + error);
     }
-}
-
-async function loadJSON(url) {
-  const response = await fetch(url);
-  return response.json();
 }
 
 function handleInput() {
