@@ -405,8 +405,8 @@ function replaceExamples(text) {
     const codeContent = window.exampleFiles && window.exampleFiles[filename];
     
     if (codeContent) {
-      return `\n\
-\\`\\` ${lang}\n${codeContent}\n\\`\\``;
+      return `\n\`\`\`${lang}\n${codeContent}\n\`\`\``; // i hate template literals
+
     } else {
       return '<p style="color:red;">Example not found.</p>';
     }
