@@ -164,18 +164,24 @@ async function loadJSON(url) {
 
 async function initializeData() {
     try {
-        // Load the configuration file
         const config = await loadJSON('/coding-tool/data/initialisedFileNames.json');
-        
-        // Load each file specified in the configuration
+
+        // Create an object to store all example files
+        window.exampleFiles = {};
+
         for (const file of config.files) {
-            window[file.name] = await loadJSON(file.url);
+            if (file.name.startsWith("example")) { 
+                window.exampleFiles[file.name] = await loadJSON(file.url);
+            } else {
+                window[file.name] = await loadJSON(file.url);
+            }
         }
 
         console.log("Data Loaded Successfully", {
             iconMap: window.iconMap,
             allowedIframeSources: window.allowedIframeSources,
-            languageConfigs: window.languageConfigs
+            languageConfigs: window.languageConfigs,
+            exampleFiles: window.exampleFiles
         });
     } catch (error) {
         alert("Error loading JSON files: " + error);
