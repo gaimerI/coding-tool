@@ -1,25 +1,23 @@
 #include <iostream>
 
-// Function to calculate factorial
+// all examples calculate the factorial
 unsigned long long factorial(int n) {
-    if (n <= 1) {
-        return 1;
+    if (n == 0) {
+        return 1; // 0! is apparently 1
+    } else {
+        return n * factorial(n - 1); // careful recursion
     }
-    return n * factorial(n - 1);
 }
 
 int main() {
     int number;
 
-    // Ask the user for a number
     std::cout << "Enter a positive integer: ";
     std::cin >> number;
 
-    // Check if the input is valid
     if (number < 0) {
         std::cout << "Factorial is not defined for negative numbers." << std::endl;
     } else {
-        // Calculate factorial
         unsigned long long result = factorial(number);
         std::cout << "Factorial of " << number << " is " << result << std::endl;
     }
