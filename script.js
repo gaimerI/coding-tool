@@ -157,7 +157,7 @@ main();
 async function initializeData() {
     try {
         // load required JSON files
-        window.iconMap = await loadJSON('/coding-tool/data/emojiMap.json');
+        window.iconMap = await loadJSON('/coding-tool/data/iconMap.json');
         window.allowedIframeSources = await loadJSON('/coding-tool/data/allowedIframeSources.json');
         window.languageConfigs = await loadJSON('/coding-tool/data/languageConfigs.json');
         
