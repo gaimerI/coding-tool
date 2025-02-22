@@ -128,7 +128,6 @@ document.addEventListener("keydown", (event) => {
 input.addEventListener("input", handleInput);
 
 runCodeBtn.addEventListener("click", () => {
-    errorOutput.textContent = "";
     runJavaScript(); // works in browser
     runTidalCycles(); // works with Strudel
     
@@ -155,52 +154,31 @@ async function main() {
 // start
 main();
 
-async function loadData(url, type) {
+async function initializeData() {
     try {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error(`HTTP ${response.status} - ${response.statusText}`);
-        }
-        return type === 'json' ? await response.json() : await response.text();
+        // load required JSON files
+        window.iconMap = await loadJSON('/coding-tool/data/emojiMap.json');
+        window.allowedIframeSources = await loadJSON('/coding-tool/data/allowedIframeSources.json');
+        window.languageConfigs = await loadJSON('/coding-tool/data/languageConfigs.json');
+        
+        console.log("Data Loaded Successfully", {
+            iconMap,
+            allowedIframeSources,
+            languageConfigs
+        });
     } catch (error) {
-        throw new Error(`Failed to fetch ${type} from ${url}: ${error.message}`);
+        alert("Error loading JSON files: " + error);
     }
 }
 
-async function initializeData() {
-    try {
-        const config = await loadData('/coding-tool/data/initialisedFileNames.json', 'json');
-        window.exampleFiles = {};
-
-        for (const file of config.files) {
-            try {
-                const data = await loadData(file.url, file.url.endsWith(".json") ? 'json' : 'text');
-                
-                if (file.name.startsWith("example")) { 
-                    window.exampleFiles[file.name] = data;
-                } else {
-                    window[file.name] = data;
-                }
-            } catch (error) {
-                logError(`Skipping ${file.name} due to error: ${error.message}`);
-                window[file.name] = `Error loading file: ${error.message}`;
-            }
-        }
-
-        console.log("Data Loaded Successfully", {
-            iconMap: window.iconMap,
-            allowedIframeSources: window.allowedIframeSources,
-            languageConfigs: window.languageConfigs,
-            exampleFiles: window.exampleFiles
-        });
-    } catch (error) {
-        logError("Initialisation Error: " + error.message);
-    }
+async function loadJSON(url) {
+  const response = await fetch(url);
+  return response.json();
 }
 
 function handleInput() {
   // localStorage.setItem("editor-content", input.value); // commented out, find new way to reduce size
-  const parsedMarkdown = marked.parse(replaceIframes(replaceLinks(replaceIcons(replaceExamples(input.value))))); // too long
+  const parsedMarkdown = marked.parse(replaceIframes(replaceLinks(replaceIcons(input.value)))); // put emoji replacement before parsing and then iframes
   preview.innerHTML = parsedMarkdown;
   Prism.highlightAll();
   updateStats();
@@ -277,17 +255,19 @@ function exportLapTimes() {
 }
 
 function runJavaScript() {
+    errorOutput.textContent = "";
     const codeBlocks = preview.querySelectorAll("code.language-js");
     codeBlocks.forEach((block) => {
         try {
             new Function(block.textContent)();
         } catch (e) {
-            logError("JavaScript Error: " + e.message);
+            errorOutput.textContent = "JavaScript Error: " + e.message;
         }
     });
 }
 
 function runTidalCycles() {
+    errorOutput.textContent = "";
     const codeBlocks = preview.querySelectorAll("code.language-tidalcycles");
     codeBlocks.forEach((block) => {
         try {
@@ -301,12 +281,13 @@ function runTidalCycles() {
             // Append the iframe to the preview area
             block.replaceWith(iframe);
         } catch (e) {
-            logError("TidalCycles Error: " + e.message);
+            errorOutput.textContent = "TidalCycles Error: " + e.message;
         }
     });
 }
 
 function runCode(language, compilerId, options = "") {
+    errorOutput.textContent = "";
     const codeBlocks = preview.querySelectorAll(`code.language-${language}`);
     
     codeBlocks.forEach((block) => {
@@ -332,7 +313,7 @@ function runCode(language, compilerId, options = "") {
             iframe.height = "400px";
             block.replaceWith(iframe);
         } catch (e) {
-            logError(`${language.charAt(0).toUpperCase() + language.slice(1)} Error: ` + e.message);
+            errorOutput.textContent = `${language.charAt(0).toUpperCase() + language.slice(1)} Error: ` + e.message;
         }
     });
 }
@@ -346,6 +327,7 @@ function updateStats() {
 }
 
 function createSafeIframe(src) {
+  errorOutput.textContent = "";
   try {
     const url = new URL(src);
     if (!allowedIframeSources.some(allowed => url.origin.startsWith(allowed))) {
@@ -358,12 +340,13 @@ function createSafeIframe(src) {
     iframe.sandbox = "allow-scripts allow-same-origin allow-popups";
     return iframe;
   } catch (e) {
-    logError("IFrame Error: " + e.message);
+    errorOutput.textContent = "IFrame Error: " + e.message;
     return null;
   }
 }
 
 function createSafeHyperlink(src) {
+    errorOutput.textContent = "";
     try {
         if (!/^https?:\/\//i.test(src)) {
             throw new Error("Invalid URL format.");
@@ -379,7 +362,7 @@ function createSafeHyperlink(src) {
         link.textContent = url.href;
         return link;
     } catch (e) {
-        logError("Link Error: " + e.message);
+        errorOutput.textContent = "Link Error: " + e.message;
         return null;
     }
 }
@@ -402,23 +385,4 @@ function replaceLinks(text) {
         const link = createSafeHyperlink(url.trim());
         return link ? link.outerHTML : '<p style="color:red;">Invalid link</p>';
     });
-}
-
-function replaceExamples(text) {
-  return text.replace(/:example lang="([^"]+)":/g, (match, lang) => {
-    const filename = `example.${lang}`;
-    const codeContent = window.exampleFiles && window.exampleFiles[filename];
-    
-    if (codeContent) {
-      return `\n\`\`\`${lang}\n${codeContent}\n\`\`\``; // i hate template literals
-
-    } else {
-      return '<p style="color:red;">Example not found.</p>';
     }
-  });
-}
-
-function logError(message) {
-    console.error(message);
-    errorOutput.textContent += (errorOutput.textContent ? "\n" : "") + message;
-}
