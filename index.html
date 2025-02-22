@@ -28,8 +28,18 @@
                 <input type="file" id="upload" style="display: none;" />
                 <button class="ui" id="upload-btn">Upload</button>
                 <a href="https://gaimeri.github.io/copyright.html">Copyright</a>
-            </div>
 
+                <!-- Settings Dropdown -->
+                <details class="ui" id="settings-dropdown">
+                <summary>Settings</summary>
+                    <div class="settings-options">
+                        <label><input type="checkbox" id="enable-autosave" /> Enable Autosave</label>
+                        <label><input type="checkbox" id="show-line-numbers" checked /> Show Line Numbers</label>
+                    <label><input type="checkbox" id="enable-spellcheck" /> Enable Spellcheck</label>
+                    </div>
+                </details>
+            </div>
+            
             <span id="stats">Words: 0 | Characters: 0</span>
             <div id="timer">Time spent editing: 00:00:00</div>
             <button class="ui" id="pause-timer">Pause</button>
@@ -39,6 +49,7 @@
             <button class="ui" id="export-lap">Export Laps</button>
             <ul class="ui" id="lap-list"></ul>
         </div>
+
 
         <main>
             <textarea id="input" wrap="off" spellcheck="false"></textarea>
