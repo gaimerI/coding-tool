@@ -177,19 +177,32 @@ async function loadJSON(url) {
   return response.json();
 }
 
+function escapeHTML(str) {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
 function handleInput() {
   let content = input.value;
 
-  // Escape unintended links by wrapping non-intended links in backticks
+  // Escape HTML to prevent unintended code execution
+  content = escapeHTML(content);
+
+  // Process content with Markdown and other functions
   content = marked.parse(replaceIframes(replaceLinks(replaceIcons(content))));
 
-  // Apply replacements
+  // Wrap unintended links in backticks
   const parsedMarkdown = content.replace(/\b(https?:\/\/[^\s<.,:;"'()]+)\b/g, "`$1`");
 
   preview.innerHTML = parsedMarkdown;
   Prism.highlightAll();
   updateStats();
 }
+
 
 
 function insertTextAtCursor(text) {
