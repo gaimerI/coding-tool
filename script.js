@@ -181,10 +181,10 @@ function handleInput() {
   let content = input.value;
 
   // Escape unintended links by wrapping non-intended links in backticks
-  content = content.replace(/\b(https?:\/\/[^\s<.,:;"'()]+)\b/g, "`$1`");
+  content = marked.parse(replaceIframes(replaceLinks(replaceIcons(content))));
 
   // Apply replacements
-  const parsedMarkdown = marked.parse(replaceIframes(replaceLinks(replaceIcons(content))));
+  const parsedMarkdown = content.replace(/\b(https?:\/\/[^\s<.,:;"'()]+)\b/g, "`$1`");
 
   preview.innerHTML = parsedMarkdown;
   Prism.highlightAll();
