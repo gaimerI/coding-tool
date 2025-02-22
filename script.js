@@ -154,45 +154,26 @@ async function main() {
 // start
 main();
 
-async function loadJSON(url) {
+async function loadData(url, type) {
     try {
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`HTTP ${response.status} - ${response.statusText}`);
         }
-        return await response.json();
+        return type === 'json' ? await response.json() : await response.text();
     } catch (error) {
-        console.error(`Error loading JSON from ${url}:`, error);
-        throw new Error(`Failed to fetch JSON from ${url}`);
+        throw new Error(`Failed to fetch ${type} from ${url}: ${error.message}`);
     }
 }
-
-async function loadText(url) {
-    try {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error(`HTTP ${response.status} - ${response.statusText}`);
-        }
-        return await response.text();
-    } catch (error) {
-        console.error(`Error loading text from ${url}:`, error);
-        throw new Error(`Failed to fetch text from ${url}`);
-    }
-}
-
 
 async function initializeData() {
     try {
-        const config = await loadJSON('/coding-tool/data/initialisedFileNames.json');
+        const config = await loadData('/coding-tool/data/initialisedFileNames.json', 'json');
         window.exampleFiles = {};
 
         for (const file of config.files) {
             try {
-                if (file.url.endsWith(".json")) {
-                    const data = await loadJSON(file.url);
-                } else {
-                    const data = await loadText(file.url);
-                }
+                const data = await loadData(file.url, file.url.endsWith(".json") ? 'json' : 'text');
                 
                 if (file.name.startsWith("example")) { 
                     window.exampleFiles[file.name] = data;
@@ -212,7 +193,7 @@ async function initializeData() {
             exampleFiles: window.exampleFiles
         });
     } catch (error) {
-        alert("Critical Error in initializeData:" + error);
+        console.error("Critical Error in initializeData:", error);
     }
 }
 
