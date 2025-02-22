@@ -128,6 +128,7 @@ document.addEventListener("keydown", (event) => {
 input.addEventListener("input", handleInput);
 
 runCodeBtn.addEventListener("click", () => {
+    errorOutput.textContent = "";
     runJavaScript(); // works in browser
     runTidalCycles(); // works with Strudel
     
@@ -276,7 +277,6 @@ function exportLapTimes() {
 }
 
 function runJavaScript() {
-    errorOutput.textContent = "";
     const codeBlocks = preview.querySelectorAll("code.language-js");
     codeBlocks.forEach((block) => {
         try {
@@ -288,7 +288,6 @@ function runJavaScript() {
 }
 
 function runTidalCycles() {
-    errorOutput.textContent = "";
     const codeBlocks = preview.querySelectorAll("code.language-tidalcycles");
     codeBlocks.forEach((block) => {
         try {
@@ -308,7 +307,6 @@ function runTidalCycles() {
 }
 
 function runCode(language, compilerId, options = "") {
-    errorOutput.textContent = "";
     const codeBlocks = preview.querySelectorAll(`code.language-${language}`);
     
     codeBlocks.forEach((block) => {
@@ -348,7 +346,6 @@ function updateStats() {
 }
 
 function createSafeIframe(src) {
-  errorOutput.textContent = "";
   try {
     const url = new URL(src);
     if (!allowedIframeSources.some(allowed => url.origin.startsWith(allowed))) {
@@ -367,7 +364,6 @@ function createSafeIframe(src) {
 }
 
 function createSafeHyperlink(src) {
-    errorOutput.textContent = "";
     try {
         if (!/^https?:\/\//i.test(src)) {
             throw new Error("Invalid URL format.");
