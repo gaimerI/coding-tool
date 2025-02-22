@@ -178,12 +178,19 @@ async function loadJSON(url) {
 }
 
 function handleInput() {
-  // localStorage.setItem("editor-content", input.value); // commented out, find new way to reduce size
-  const parsedMarkdown = marked.parse(replaceIframes(replaceLinks(replaceIcons(input.value)))); // put emoji replacement before parsing and then iframes
+  let content = input.value;
+
+  // Escape unintended links by wrapping non-intended links in backticks
+  content = content.replace(/\b(https?:\/\/[^\s<]+[^.,:;"'\])\s])/g, "`$1`");
+
+  // Apply replacements
+  const parsedMarkdown = marked.parse(replaceIframes(replaceLinks(replaceIcons(content))));
+
   preview.innerHTML = parsedMarkdown;
   Prism.highlightAll();
   updateStats();
 }
+
 
 function insertTextAtCursor(text) {
   const start = input.selectionStart;
@@ -386,4 +393,4 @@ function replaceLinks(text) {
         const link = createSafeHyperlink(url.trim());
         return link ? link.outerHTML : '<p style="color:red;">Invalid link</p>';
     });
-    }
+}
