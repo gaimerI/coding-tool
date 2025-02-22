@@ -167,6 +167,20 @@ async function loadJSON(url) {
     }
 }
 
+async function loadText(url) {
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status} - ${response.statusText}`);
+        }
+        return await response.text();
+    } catch (error) {
+        console.error(`Error loading text from ${url}:`, error);
+        throw new Error(`Failed to fetch text from ${url}`);
+    }
+}
+
+
 async function initializeData() {
     try {
         const config = await loadJSON('/coding-tool/data/initialisedFileNames.json');
@@ -174,7 +188,12 @@ async function initializeData() {
 
         for (const file of config.files) {
             try {
-                const data = await loadJSON(file.url);
+                if (file.url.endsWith(".json")) {
+                    const data = await loadJSON(file.url);
+                } else {
+                    const data = await loadText(file.url);
+                }
+                
                 if (file.name.startsWith("example")) { 
                     window.exampleFiles[file.name] = data;
                 } else {
