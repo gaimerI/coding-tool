@@ -167,7 +167,8 @@ async function initializeData() {
             languageConfigs
         });
     } catch (error) {
-        alert("Error loading JSON files: " + error);
+        alert(`Error loading JSON files:\n\nMessage: ${error.message}\nStack: ${error.stack}`);
+        console.error("Error details:", error);
     }
 }
 
