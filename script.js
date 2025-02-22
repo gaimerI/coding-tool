@@ -181,7 +181,7 @@ function handleInput() {
   let content = input.value;
 
   // Escape unintended links by wrapping non-intended links in backticks
-  content = content.replace(/\b(https?:\/\/[^\s<]+[^.,:;"'\])\s])/g, "`$1`");
+  content = content.replace(/\b(https?:\/\/[^\s<.,:;"'()]+)\b/g, "`$1`");
 
   // Apply replacements
   const parsedMarkdown = marked.parse(replaceIframes(replaceLinks(replaceIcons(content))));
