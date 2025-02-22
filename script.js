@@ -181,7 +181,7 @@ async function initializeData() {
                     window[file.name] = data;
                 }
             } catch (error) {
-                alert(`Skipping ${file.name} due to error: ${error.message}`);
+                logError(`Skipping ${file.name} due to error: ${error.message}`);
                 window[file.name] = `Error loading file: ${error.message}`;
             }
         }
@@ -193,7 +193,7 @@ async function initializeData() {
             exampleFiles: window.exampleFiles
         });
     } catch (error) {
-        console.error("Critical Error in initializeData:", error);
+        logError("Initialisation Error: " + error.message);
     }
 }
 
@@ -282,7 +282,7 @@ function runJavaScript() {
         try {
             new Function(block.textContent)();
         } catch (e) {
-            errorOutput.textContent = "JavaScript Error: " + e.message;
+            logError("JavaScript Error: " + e.message);
         }
     });
 }
@@ -302,7 +302,7 @@ function runTidalCycles() {
             // Append the iframe to the preview area
             block.replaceWith(iframe);
         } catch (e) {
-            errorOutput.textContent = "TidalCycles Error: " + e.message;
+            logError("TidalCycles Error: " + e.message);
         }
     });
 }
@@ -334,7 +334,7 @@ function runCode(language, compilerId, options = "") {
             iframe.height = "400px";
             block.replaceWith(iframe);
         } catch (e) {
-            errorOutput.textContent = `${language.charAt(0).toUpperCase() + language.slice(1)} Error: ` + e.message;
+            logError(`${language.charAt(0).toUpperCase() + language.slice(1)} Error: ` + e.message);
         }
     });
 }
@@ -361,7 +361,7 @@ function createSafeIframe(src) {
     iframe.sandbox = "allow-scripts allow-same-origin allow-popups";
     return iframe;
   } catch (e) {
-    errorOutput.textContent = "IFrame Error: " + e.message;
+    logError("IFrame Error: " + e.message);
     return null;
   }
 }
@@ -383,7 +383,7 @@ function createSafeHyperlink(src) {
         link.textContent = url.href;
         return link;
     } catch (e) {
-        errorOutput.textContent = "Link Error: " + e.message;
+        logError("Link Error: " + e.message);
         return null;
     }
 }
@@ -420,4 +420,9 @@ function replaceExamples(text) {
       return '<p style="color:red;">Example not found.</p>';
     }
   });
+}
+
+function logError(message) {
+    console.error(message);
+    errorOutput.textContent += (errorOutput.textContent ? "\n" : "") + message;
 }
