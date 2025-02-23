@@ -187,20 +187,20 @@ function escapeHTML(str) {
 }
 
 function handleInput() {
-  let content = input.value;
+    let content = input.value;
 
-  // Escape HTML to prevent unintended code execution
-  content = escapeHTML(content);
+    // this first, quotes no escape
+    content = marked.parse(replaceIframes(replaceLinks(replaceIcons(content))));
 
-  // Process content with Markdown and other functions
-  content = marked.parse(replaceIframes(replaceLinks(replaceIcons(content))));
+    // todo: make a sandbox if I don't find existing one
+    content = escapeHTML(content);
 
-  // Wrap unintended links in backticks
-  const parsedMarkdown = content.replace(/\b(https?:\/\/[^\s<.,:;"'()]+)\b/g, "`$1`");
+    // no work
+    const parsedMarkdown = content.replace(/\b(https?:\/\/[^\s<.,:;"'()]+)\b/g, "`$1`");
 
-  preview.innerHTML = parsedMarkdown;
-  Prism.highlightAll();
-  updateStats();
+    preview.innerHTML = parsedMarkdown;
+    Prism.highlightAll();
+    updateStats();
 }
 
 
