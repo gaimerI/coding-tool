@@ -189,21 +189,18 @@ function escapeHTML(str) {
 function handleInput() {
     let content = input.value;
 
-    // this first, quotes no escape
-    content = marked.parse(replaceIframes(replaceLinks(replaceIcons(content))));
+    // Replace iframes, links, and icons first
+    content = replaceIframes(replaceLinks(replaceIcons(content)));
+    content = marked.parse(content);
 
-    // todo: make a sandbox if I don't find existing one
+    // todo: find the html compiler
     content = escapeHTML(content);
 
-    // no work
-    const parsedMarkdown = content.replace(/\b(https?:\/\/[^\s<.,:;"'()]+)\b/g, "`$1`");
-
-    preview.innerHTML = parsedMarkdown;
+    // still probably a problem
+    preview.innerHTML = content;
     Prism.highlightAll();
     updateStats();
 }
-
-
 
 function insertTextAtCursor(text) {
   const start = input.selectionStart;
