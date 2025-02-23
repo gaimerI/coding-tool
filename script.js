@@ -182,7 +182,7 @@ function escapeHTML(str) {
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
+    // quotes are free yippee
     .replace(/'/g, "&#039;");
 }
 
