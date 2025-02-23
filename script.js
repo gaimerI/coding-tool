@@ -188,13 +188,14 @@ function escapeHTML(str) {
 
 function handleInput() {
     let content = input.value;
-
-    // Replace iframes, links, and icons first
-    content = replaceIframes(replaceLinks(replaceIcons(content)));
-    content = marked.parse(content);
-
+    
     // todo: find the html compiler
     content = escapeHTML(content);
+
+
+    // replace iframes, links, and icons ~~first~~ second
+    content = replaceIframes(replaceLinks(replaceIcons(content)));
+    content = marked.parse(content);
 
     // still probably a problem
     preview.innerHTML = content;
