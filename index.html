@@ -27,9 +27,8 @@
                 <button class="ui" id="download">Download</button>
                 <input type="file" id="upload" style="display: none;" />
                 <button class="ui" id="upload-btn">Upload</button>
-                <a href="https://gaimeri.github.io/copyright.html">Copyright</a>
 
-                <!-- Settings Dropdown -->
+                <!-- details id the best looking dropdown i can find without using CSS -->
                 <details class="ui" id="settings-dropdown">
                 <summary>Settings</summary>
                     <ul class="settings-options ui">
@@ -41,6 +40,14 @@
                         </li>
                         <li>
                             <label><input type="checkbox" id="enable-spellcheck" /> Enable Spellcheck</label>
+                        </li>
+                        <li>
+                            <label for="font-select">Editor Font:</label>
+                            <select id=font-select">
+                                <option value="sans-serif">Sans-Serif</option>
+                                <option value="serif">Serif</option>
+                                <option value="monospace">Monospace</option>
+                            </select>
                         </li>
                     </ul>
                 </details>
