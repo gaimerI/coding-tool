@@ -31,7 +31,7 @@ button.ui {
   border: none;
   cursor: pointer;
   margin-right: 5px;
-  margin-down: 5px;
+  margin-bottom: 5px;
 }
 
 select.ui {
