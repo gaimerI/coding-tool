@@ -32,6 +32,14 @@ button.ui {
   margin-down: 5px;
 }
 
+select.ui {
+  padding: 0.5rem 1rem;
+  border: none;
+  cursor: pointer;
+  margin-right: 5px;
+  margin-down: 5px;
+}
+
 #input {
   width: 50%;
   height: 100%;
