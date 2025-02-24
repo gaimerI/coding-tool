@@ -12,8 +12,10 @@ body {
 main {
   display: flex;
   width: 100%;
-  flex-grow: 1;
-  overflow: hidden;
+  height: calc(100% - 50px);
+  gap: 10px; /* spacing */
+  padding: 10px;
+  box-sizing: border-box;
 }
 
 ul.ui {
@@ -60,12 +62,25 @@ select.ui {
   border-left: 1px solid #ccc;
 }
 
+#input, #preview {
+  min-width: 45%;
+  flex: 1;
+}
+
 #toolbar {
-  display: grid;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
   padding: 0.5rem;
   background: #ddd;
-  justify-content: space-between;
-  align-items: center;
+}
+
+#timer-controls {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
 }
 
 #resume-timer {
@@ -73,7 +88,24 @@ select.ui {
 }
 
 details {
-  z-index: 1;
+  position: relative;
+}
+
+details summary {
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  background: #eee;
+  border-radius: 5px;
+}
+
+details[open] ul {
+  position: absolute;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  list-style: none;
+  margin-top: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 #error-output {
