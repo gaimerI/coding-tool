@@ -18,7 +18,7 @@ main {
 
 ul.ui {
   height: 100px;
-  width: 100px;
+  width: auto;
   overflow: auto;
   border-style: groove;
   padding: 5px;
