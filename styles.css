@@ -61,7 +61,7 @@ select.ui {
 }
 
 #toolbar {
-  display: flex;
+  display: grid;
   padding: 0.5rem;
   background: #ddd;
   justify-content: space-between;
@@ -70,6 +70,10 @@ select.ui {
 
 #resume-timer {
   display: none;
+}
+
+details {
+  z-index: 1;
 }
 
 #error-output {
