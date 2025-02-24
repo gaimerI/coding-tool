@@ -154,6 +154,8 @@ async function main() {
 // start
 main();
 
+// i was told to put async on top...
+
 async function initializeData() {
     try {
         // load required JSON files
@@ -182,7 +184,7 @@ function escapeHTML(str) {
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
-    // quotes are free yippee
+    // quotes are free
     .replace(/'/g, "&#039;");
 }
 
@@ -191,8 +193,7 @@ function handleInput() {
     
     // todo: find the html compiler
     content = escapeHTML(content);
-
-
+    
     // replace iframes, links, and icons ~~first~~ second
     content = replaceIframes(replaceLinks(replaceIcons(content)));
     content = marked.parse(content);
