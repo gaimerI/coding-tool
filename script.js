@@ -191,18 +191,37 @@ function escapeHTML(str) {
 function handleInput() {
     let content = input.value;
     
-    // todo: find the html compiler
-    content = escapeHTML(content);
-    
-    // replace iframes, links, and icons ~~first~~ second
+    content = escapeHTML(content); // put the raw chicken in the salad
     content = replaceIframes(replaceLinks(replaceIcons(content)));
-    content = marked.parse(content);
+    let parsedHTML = marked.parse(content);
 
-    // still probably a problem
-    preview.innerHTML = content;
+    // you don't believe how many hours fixing this took
+    parsedHTML = sanitizeLinks(parsedHTML);
+
+    preview.innerHTML = parsedHTML;
     Prism.highlightAll();
     updateStats();
 }
+
+function sanitizeLinks(html) {
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = html;
+
+    tempDiv.querySelectorAll("a").forEach(link => {
+        try {
+            const url = new URL(link.href);
+            const allowed = [...allowedIframeSources].some(allowed => url.origin.startsWith(allowed));
+            if (!allowed) {
+                link.outerHTML = '<p style="color:red;">Invalid link</p>';
+            }
+        } catch (e) {
+            link.outerHTML = '<p style="color:red;">Invalid link</p>';
+        }
+    });
+
+    return tempDiv.innerHTML;
+}
+
 
 function insertTextAtCursor(text) {
   const start = input.selectionStart;
