@@ -32,6 +32,7 @@ button.ui {
   cursor: pointer;
   margin-right: 5px;
   margin-bottom: 5px;
+  max-height: 3em;
 }
 
 select.ui {
