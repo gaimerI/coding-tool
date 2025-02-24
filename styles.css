@@ -97,7 +97,6 @@ details summary {
   cursor: pointer;
   padding: 0.5rem 1rem;
   background: #eee;
-  border-radius: 5px;
 }
 
 details[open] ul {
