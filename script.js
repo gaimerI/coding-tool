@@ -174,7 +174,7 @@ async function initializeData() {
             languageConfigs
         });
     } catch (error) {
-        alert(`Error loading JSON files:\n\nMessage: ${error.message}\nStack: ${error.stack}`);
+        appendErrorMessage(`Error loading JSON files:\n\nMessage: ${error.message}\nStack: ${error.stack}`);
         console.error("Error details:", error);
     }
 }
@@ -305,7 +305,7 @@ function runJavaScript() {
         try {
             new Function(block.textContent)();
         } catch (e) {
-            errorOutput.textContent = "JavaScript Error: " + e.message;
+            appendErrorMessage("JavaScript Error: " + e.message);
         }
     });
 }
@@ -325,7 +325,7 @@ function runTidalCycles() {
             // Append the iframe to the preview area
             block.replaceWith(iframe);
         } catch (e) {
-            errorOutput.textContent = "TidalCycles Error: " + e.message;
+            appendErrorMessage("TidalCycles Error: " + e.message);
         }
     });
 }
@@ -357,7 +357,7 @@ function runCode(language, compilerId, options = "") {
             iframe.height = "400px";
             block.replaceWith(iframe);
         } catch (e) {
-            errorOutput.textContent = `${language.charAt(0).toUpperCase() + language.slice(1)} Error: ` + e.message;
+            appendErrorMessage(`${language.charAt(0).toUpperCase() + language.slice(1)} Error: ` + e.message);
         }
     });
 }
@@ -384,7 +384,7 @@ function createSafeIframe(src) {
     iframe.sandbox = "allow-scripts allow-same-origin allow-popups";
     return iframe;
   } catch (e) {
-    errorOutput.textContent = "IFrame Error: " + e.message;
+      appendErrorMessage("IFrame Error: " + e.message);
     return null;
   }
 }
@@ -405,7 +405,7 @@ function createSafeHyperlink(src, text) {
         link.textContent = text || url.href; // Use provided text or default to the URL
         return link;
     } catch (e) {
-        errorOutput.textContent = "Link Error: " + e.message;
+        appendErrorMessage("Link Error: " + e.message);
         return null;
     }
 }
@@ -427,4 +427,12 @@ function replaceLinks(text) {
     return text.replace(/:link src="([^"]+)"(?: text="([^"]*)")?:/g, (match, url, linkText) => {
         const link = createSafeHyperlink(url.trim(), linkText ? linkText.trim() : null);
         return link ? link.outerHTML : '<p style="color:red;">Invalid link</p>'; });
+}
+
+function appendErrorMessage(message) {
+    if (!errorOutput) return;
+    const errorParagraph = document.createElement("p");
+    errorParagraph.style.color = "red";
+    errorParagraph.textContent = message;
+    errorOutput.appendChild(errorParagraph);
 }
