@@ -389,13 +389,12 @@ function createSafeIframe(src) {
   }
 }
 
-function createSafeHyperlink(src) {
+function createSafeHyperlink(src, text) {
     errorOutput.textContent = "";
     try {
         if (!/^https?:\/\//i.test(src)) {
             throw new Error("Invalid URL format.");
-        }
-        const url = new URL(src);
+        } const url = new URL(src);
         if (![...allowedIframeSources].some(allowed => url.origin.startsWith(allowed))) {
             throw new Error("Link source not allowed.");
         }
@@ -403,7 +402,7 @@ function createSafeHyperlink(src) {
         link.href = url.href;
         link.target = "_blank";
         link.rel = "noopener noreferrer";
-        link.textContent = url.href;
+        link.textContent = text || url.href; // Use provided text or default to the URL
         return link;
     } catch (e) {
         errorOutput.textContent = "Link Error: " + e.message;
@@ -425,8 +424,7 @@ function replaceIcons(text) {
 }
 
 function replaceLinks(text) {
-    return text.replace(/:link src="([^"]+)":/g, (match, url) => {
-        const link = createSafeHyperlink(url.trim());
-        return link ? link.outerHTML : '<p style="color:red;">Invalid link</p>';
-    });
+    return text.replace(/:link src="([^"]+)"(?: text="([^"]*)")?:/g, (match, url, linkText) => {
+        const link = createSafeHyperlink(url.trim(), linkText ? linkText.trim() : null);
+        return link ? link.outerHTML : '<p style="color:red;">Invalid link</p>'; });
 }
