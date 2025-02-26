@@ -167,6 +167,7 @@ async function initializeData() {
         window.iconMap = await loadJSON('/coding-tool/data/iconMap.json');
         window.allowedIframeSources = await loadJSON('/coding-tool/data/allowedIframeSources.json');
         window.languageConfigs = await loadJSON('/coding-tool/data/languageConfigs.json');
+        window.inputReplacements = await loadJSON('/coding-tool/data/inputReplacements.json');
         
         console.log("Data Loaded Successfully", {
             iconMap,
@@ -198,7 +199,7 @@ function handleInput() {
     let content = input.value;
     
     content = escapeHTML(content); // don't put the raw chicken in the salad
-    content = replaceIframes(replaceSliders(replaceLinks(replaceIcons(replaceTextInputs(replaceNumberInputs(replaceCheckboxes(replaceRadioButtons(replaceSelectDropdowns(replaceTextareas(content)))))))))); // way too long
+    content = replaceIframes(replaceSliders(replaceLinks(replaceIcons(replaceInputs(content))))); // way too long
     let parsedHTML = marked.parse(content);
 
     // you don't believe how many hours fixing this took
@@ -433,72 +434,9 @@ function appendErrorMessage(message) {
     errorOutput.appendChild(errorParagraph);
 }
 
-function replaceSliders(text) {
-    return text.replace(/:slider min="([^"]+)" max="([^"]+)" step="([^"]+)" value="([^"]+)":/g, (match, min, max, step, value) => {
-            return `<input type="range" min="${min}" max="${max}" step="${step}" value="${value}" 
-                    oninput="this.nextElementSibling.value = this.value">
-                    <output>${value}</output>`;
-    });
-}
-
-function replaceSelectDropdowns(text) {
-    return text.replace(/:select name="([^"]+)" options="([^"]+)" selected="([^"]+)":/g, 
-        (match, name, options, selected) => {
-            const optionsHTML = options.split(', ').map(option => 
-                `<option value="${option}"${option === selected ? ' selected' : ''}>${option}</option>`
-            ).join('');
-            return `<select name="${name}">${optionsHTML}</select>`;
-        }
-    );
-}
-
-function replaceRadioButtons(text) {
-    return text.replace(/:radio name="([^"]+)" value="([^"]+)"( checked)?:/g, 
-        (match, name, value, checked) => {
-            return `<input type="radio" name="${name}" value="${value}"${checked ? ' checked' : ''}>`;
-        }
-    );
-}
-
-function replaceCheckboxes(text) {
-    return text.replace(/:checkbox( checked)?:/g, 
-        (match, checked) => {
-            return `<input type="checkbox"${checked ? ' checked' : ''}>`;
-        }
-    );
-}
-
-function replaceNumberInputs(text) {
-    return text.replace(/:number min="([^"]+)" max="([^"]+)" value="([^"]+)":/g, 
-        (match, min, max, value) => {
-            return `<input type="number" min="${min}" max="${max}" value="${value}">`;
-        }
-    );
-}
-
-function replaceTextInputs(text) {
-    return text.replace(/:text placeholder="([^"]+)" value="([^"]+)":/g, 
-        (match, placeholder, value) => {
-            return `<input type="text" placeholder="${placeholder}" value="${value}">`;
-        }
-    );
-}
-
-function replaceTextareas(text) {
-    return text.replace(/:textarea placeholder="([^"]+)" rows="(\d+)" cols="(\d+)":([^:]+):/g, 
-        (match, placeholder, rows, cols, content) => {
-            return `<textarea placeholder="${placeholder}" rows="${rows}" cols="${cols}">${content}</textarea>`;
-        }
-    );
-}
-
-function replaceSelectDropdowns(text) {
-    return text.replace(/:select name="([^"]+)" options="([^"]+)" selected="([^"]+)":/g, 
-        (match, name, options, selected) => {
-            const optionsHTML = options.split(', ').map(option => 
-                `<option value="${option}"${option === selected ? ' selected' : ''}>${option}</option>`
-            ).join('');
-            return `<select name="${name}">${optionsHTML}</select>`;
-        }
-    );
+function replaceInputs(text) {
+    return replacements.reduce((acc, {
+        regex,
+        template
+    }) => acc.replace(regex, template),text);
 }
