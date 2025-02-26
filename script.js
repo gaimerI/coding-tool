@@ -199,7 +199,7 @@ function handleInput() {
     let content = input.value;
     
     content = escapeHTML(content); // don't put the raw chicken in the salad
-    content = replaceIframes(replaceSliders(replaceLinks(replaceIcons(replaceInputs(content))))); // way too long
+    content = replaceIframes(replaceLinks(replaceIcons(replaceInputs(content)))); // way too long
     let parsedHTML = marked.parse(content);
 
     // you don't believe how many hours fixing this took
