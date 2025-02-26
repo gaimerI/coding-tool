@@ -198,7 +198,7 @@ function handleInput() {
     let content = input.value;
     
     content = escapeHTML(content); // don't put the raw chicken in the salad
-    content = replaceIframes(replaceSliders(replaceLinks(replaceIcons(replaceTextInputs(replaceNumberInputs(replaceCheckboxes(replaceRadioButtons(content)))))))); // way too long
+    content = replaceIframes(replaceSliders(replaceLinks(replaceIcons(replaceTextInputs(replaceNumberInputs(replaceCheckboxes(replaceRadioButtons(replaceSelectDropdowns(replaceTextareas(content)))))))))); // way too long
     let parsedHTML = marked.parse(content);
 
     // you don't believe how many hours fixing this took
@@ -480,6 +480,25 @@ function replaceTextInputs(text) {
     return text.replace(/:text placeholder="([^"]+)" value="([^"]+)":/g, 
         (match, placeholder, value) => {
             return `<input type="text" placeholder="${placeholder}" value="${value}">`;
+        }
+    );
+}
+
+function replaceTextareas(text) {
+    return text.replace(/:textarea placeholder="([^"]+)" rows="(\d+)" cols="(\d+)":([^:]+):/g, 
+        (match, placeholder, rows, cols, content) => {
+            return `<textarea placeholder="${placeholder}" rows="${rows}" cols="${cols}">${content}</textarea>`;
+        }
+    );
+}
+
+function replaceSelectDropdowns(text) {
+    return text.replace(/:select name="([^"]+)" options="([^"]+)" selected="([^"]+)":/g, 
+        (match, name, options, selected) => {
+            const optionsHTML = options.split(', ').map(option => 
+                `<option value="${option}"${option === selected ? ' selected' : ''}>${option}</option>`
+            ).join('');
+            return `<select name="${name}">${optionsHTML}</select>`;
         }
     );
 }
