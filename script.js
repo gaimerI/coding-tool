@@ -16,6 +16,7 @@ const lapContainer = document.getElementById("lap-list");
 const lapBtn = document.getElementById("lap-timer");
 const exportLapTimesBtn = document.getElementById("export-lap");
 const fontSelect = document.getElementById("font-select");
+const fontSizeSelect = document.getElementById("font-size");
 
 let startTime = performance.now();
 let elapsedTime = 0;
@@ -34,7 +35,7 @@ clearBtn.addEventListener("click", () => {
 
 downloadBtn.addEventListener("click", () => {
     if (!input.value.trim()) {
-        alert("Cannot download an empty file.");
+        appendErrorMessage("Cannot download an empty file.");
         return;
     }
 
@@ -128,6 +129,10 @@ document.addEventListener("keydown", (event) => {
 
 fontSelect.addEventListener("change", function () {
     input.style.fontFamily = this.value;
+});
+
+fontSizeSelect.addEventListener("change", function () {
+    input.style.fontSize = this.value;
 });
 
 input.addEventListener("input", handleInput);
