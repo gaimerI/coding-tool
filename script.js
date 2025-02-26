@@ -198,7 +198,7 @@ function handleInput() {
     let content = input.value;
     
     content = escapeHTML(content); // put the raw chicken in the salad
-    content = replaceIframes(replaceLinks(replaceIcons(content)));
+    content = replaceIframes(replaceSliders(replaceLinks(replaceIcons(content))));
     let parsedHTML = marked.parse(content);
 
     // you don't believe how many hours fixing this took
@@ -431,4 +431,13 @@ function appendErrorMessage(message) {
     errorParagraph.style.color = "red";
     errorParagraph.textContent = message;
     errorOutput.appendChild(errorParagraph);
+}
+
+function replaceSliders(text) {
+    return text.replace(/:slider min="([^"]+)" max="([^"]+)" step="([^"]+)" value="([^"]+)":/g, 
+        (match, min, max, step, value) => {
+            return `<input type="range" min="${min}" max="${max}" step="${step}" value="${value}" 
+                    oninput="this.nextElementSibling.value = this.value">
+                    <output>${value}</output>`;
+        });
 }
