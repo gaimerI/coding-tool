@@ -167,7 +167,7 @@ async function initializeData() {
         window.iconMap = await loadJSON('/coding-tool/data/iconMap.json');
         window.allowedIframeSources = await loadJSON('/coding-tool/data/allowedIframeSources.json');
         window.languageConfigs = await loadJSON('/coding-tool/data/languageConfigs.json');
-        window.inputReplacements = await import('/coding-tool/data/inputReplacements.js');
+        window.inputReplacements = (await import('/coding-tool/data/inputReplacements.js')).default;
         
         console.log("Data Loaded Successfully", {
             iconMap,
