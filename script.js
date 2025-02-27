@@ -167,7 +167,7 @@ async function initializeData() {
         window.iconMap = await loadJSON('/coding-tool/data/iconMap.json');
         window.allowedIframeSources = await loadJSON('/coding-tool/data/allowedIframeSources.json');
         window.languageConfigs = await loadJSON('/coding-tool/data/languageConfigs.json');
-        const inputReplacements = await import('/coding-tool/data/inputReplacements.js');
+        window.inputReplacements = await import('/coding-tool/data/inputReplacements.js');
         
         console.log("Data Loaded Successfully", {
             iconMap,
@@ -435,7 +435,7 @@ function appendErrorMessage(message) {
 }
 
 function replaceInputs(text) {
-    return replacements.reduce((acc, {
+    return inputReplacements.reduce((acc, {
         regex,
         template
     }) => acc.replace(regex, template),text);
