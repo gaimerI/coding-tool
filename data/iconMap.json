@@ -37,11 +37,14 @@
     "bluesky": "<img class=\"character-image\" src=\"images/bluesky.svg\" alt=\"Bluesky Icon\">",
     "twitter": "<img class=\"character-image\" src=\"images/twitter.svg\" alt=\"Twitter Icon\">",
     "elonmusk": "<img class=\"character-image\" src=\"images/elonmusk.svg\" alt=\"X (Twitter) Icon\">",
-    "chatgpt": "<img class=\"character-image\" src=\"images/chatgpt.svg\" alt=\"ChatGPT Icon\">",
+    "chatgpt": "<img class=\"character-image\" src=\"images/chatgpt.png\" alt=\"ChatGPT Icon\">",
     "bluetooth": "<img class=\"character-image\" src=\"images/bluetooth.svg\" alt=\"Bluetooth Icon\">",
     "pastagang": "<img class=\"character-image\" src=\"images/pastagang.png\" alt=\"Pastagang Icon\">",
     "cellpond": "<img class=\"character-image\" src=\"images/cellpond.png\" alt=\"Cellpond Icon\">",
     "arroost": "<img class=\"character-image\" src=\"images/arroost.png\" alt=\"Arroost Icon\">",
     "sandpond": "<img class=\"character-image\" src=\"images/sandpond.png\" alt=\"Sandpond Icon\">",
-    "this_is_a_very_long_phrase_that_hopefully_is_not_in_any_dictionary": "<img class=\"character-image\" src=\"images/pastagang.png\" alt=\"What may this be?\">"
+    "this_is_a_very_long_phrase_that_hopefully_is_not_in_any_dictionary": "<img class=\"character-image\" src=\"images/ananas.png\" alt=\"What may this be?\">",
+    "firefox": "<img class=\"character-image\" src=\"images/firefox.svg\" alt=\"Firefox Icon\">",
+    "thunderbird": "<img class=\"character-image\" src=\"images/thunderbird.png\" alt=\"Thunderbird Icon\">",
+    "mozilla": "<img class=\"character-image\" src=\"images/mozilla.svg\" alt=\"Mozilla Icon\">"
 }
