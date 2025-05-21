@@ -40,14 +40,14 @@ downloadBtn.addEventListener("click", () => {
 
     const blob = new Blob([input.value], {
         type: "text/plain"
-    }); // i have no idea what is a blob
+    }); // yes
     const url = URL.createObjectURL(blob);
 
     const a = document.createElement("a");
     a.href = url;
     a.download = "tadi_lab.txt";
 
-    document.body.appendChild(a); // apparently required
+    document.body.appendChild(a); // apparently required?
     a.click();
     document.body.removeChild(a);
 
@@ -68,7 +68,7 @@ uploadInput.addEventListener("change", (event) => {
     }
 });
 
-lapBtn.addEventListener("click", recordLap);
+lapBtn.addEventListener("click", recordLap); // why lap times? why not?
 
 exportLapTimesBtn.addEventListener("click", exportLapTimes);
 
@@ -185,6 +185,7 @@ async function loadJSON(url) {
   return response.json();
 }
 
+/*
 function escapeHTML(str) {
   return str
     .replace(/&/g, "&amp;")
@@ -193,12 +194,13 @@ function escapeHTML(str) {
     // quotes are free
     .replace(/'/g, "&#039;");
 }
+*/ // i don't care
 
 function handleInput() {
     errorOutput.textContent = "";
     let content = input.value;
     
-    content = escapeHTML(content); // don't put the raw chicken in the salad
+    // content = escapeHTML(content); // yes do put the raw chicken in the salad
     content = replaceIframes(replaceLinks(replaceIcons(replaceInputs(content)))); // way too long
     let parsedHTML = marked.parse(content);
 
