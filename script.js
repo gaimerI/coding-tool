@@ -124,7 +124,7 @@ document.addEventListener("keydown", (event) => {
         input.selectionStart -= 4;
         event.preventDefault();
     }
-})
+});
 
 fontSelect.addEventListener("change", function () {
     input.style.fontFamily = this.value;
