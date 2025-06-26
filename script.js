@@ -201,7 +201,7 @@ function handleInput() {
     let content = input.value;
     
     // content = escapeHTML(content); // yes do put the raw chicken in the salad
-    content = replaceIframes(replaceLinks(replaceIcons(replaceInputs(content)))); // way too long
+    content = replaceIframes(replaceLinks(replaceIcons(replaceInputs(replaceImages(replaceVideos(content)))))); // way too long
     let parsedHTML = marked.parse(content);
 
     // you don't believe how many hours fixing this took
