@@ -442,3 +442,57 @@ function replaceInputs(text) {
         template
     }) => acc.replace(regex, template),text);
 }
+
+function replaceImages(text) {
+    return text.replace(/:image src="([^"]+)"(?: alt="([^"]*)")?:/g, (match, src, altText) => {
+        const img = createSafeImageElement(src.trim(), altText ? altText.trim() : null);
+        return img ? img.outerHTML : '<p style="color:red;">Invalid image</p>';
+    });
+}
+
+function createSafeImageElement(dataURL, alt) {
+    try {
+        // Basic validation of data URL
+        if (!/^data:image\/(png|jpeg|jpg|gif|webp);base64,[a-z0-9+/=]+$/i.test(dataURL)) {
+            throw new Error("Invalid or unsupported data URL.");
+        }
+
+        const img = document.createElement("img");
+        img.src = dataURL;
+        img.alt = alt || "Embedded Image";
+        img.style.maxWidth = "100%";
+        img.loading = "lazy";
+        return img;
+    } catch (e) {
+        appendErrorMessage("Image Error: " + e.message);
+        return null;
+    }
+}
+
+function replaceVideos(text) {
+    return text.replace(/:video src="([^"]+)"(?: controls)?:/g, (match, src) => {
+        const video = createSafeVideoElement(src.trim());
+        return video ? video.outerHTML : '<p style="color:red;">Invalid video</p>';
+    });
+}
+
+function createSafeVideoElement(dataURL) {
+    try {
+        // Basic validation of data URL format for video
+        if (!/^data:video\/(mp4|webm|ogg);base64,[a-z0-9+/=]+$/i.test(dataURL)) {
+            throw new Error("Invalid or unsupported video data URL.");
+        }
+
+        const video = document.createElement("video");
+        video.src = dataURL;
+        video.controls = true;
+        video.style.maxWidth = "100%";
+        video.style.display = "block";
+        video.loading = "lazy"; // hint to browser (some support it)
+        return video;
+    } catch (e) {
+        appendErrorMessage("Video Error: " + e.message);
+        return null;
+    }
+}
+
