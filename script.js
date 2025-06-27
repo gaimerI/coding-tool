@@ -16,6 +16,8 @@ const lapContainer = document.getElementById("lap-list");
 const lapBtn = document.getElementById("lap-timer");
 const exportLapTimesBtn = document.getElementById("export-lap");
 const fontSelect = document.getElementById("font-select");
+const fileNameInput = document.getElementById("file-name");
+const fileExtensionSelect = document.getElementById("file-extension");
 
 let startTime = performance.now();
 let elapsedTime = 0;
@@ -38,21 +40,27 @@ downloadBtn.addEventListener("click", () => {
         return;
     }
 
-    const blob = new Blob([input.value], {
+    const content = input.value;
+    const blob = new Blob([content], {
         type: "text/plain"
-    }); // yes
+    });
     const url = URL.createObjectURL(blob);
+
+    const defaultName = defaultFileName || "tadi_lab";
+    const defaultExt = defaultFileExtension || "txt";
+    const finalFileName = `${defaultName}.${defaultExt}`;
 
     const a = document.createElement("a");
     a.href = url;
-    a.download = "tadi_lab.txt";
+    a.download = finalFileName;
 
-    document.body.appendChild(a); // apparently required?
+    document.body.appendChild(a); // apparently required
     a.click();
     document.body.removeChild(a);
 
     URL.revokeObjectURL(url); // cleanup
 });
+
 
 uploadBtn.addEventListener("click", () => uploadInput.click());
 
@@ -128,6 +136,14 @@ document.addEventListener("keydown", (event) => {
 
 fontSelect.addEventListener("change", function () {
     input.style.fontFamily = this.value;
+});
+
+fileNameInput.addEventListener("input", () => {
+    defaultFileName = fileNameInput.value.trim() || "tadi_lab";
+});
+
+fileExtensionSelect.addEventListener("change", () => {
+    defaultFileExtension = fileExtensionSelect.value);
 });
 
 input.addEventListener("input", handleInput);
