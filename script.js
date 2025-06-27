@@ -143,7 +143,7 @@ fileNameInput.addEventListener("input", () => {
 });
 
 fileExtensionSelect.addEventListener("change", () => {
-    defaultFileExtension = fileExtensionSelect.value);
+    defaultFileExtension = fileExtensionSelect.value;
 });
 
 input.addEventListener("input", handleInput);
