@@ -18,6 +18,8 @@ const exportLapTimesBtn = document.getElementById("export-lap");
 const fontSelect = document.getElementById("font-select");
 const fileNameInput = document.getElementById("file-name");
 const fileExtensionSelect = document.getElementById("file-extension");
+let defaultFileName = "tadi_lab";
+let defaultFileExtension = "txt";
 
 let startTime = performance.now();
 let elapsedTime = 0;
