@@ -150,6 +150,8 @@ fileExtensionSelect.addEventListener("change", () => {
 
 input.addEventListener("input", handleInput);
 
+// under construction
+/*
 runCodeBtn.addEventListener("click", () => {
     runJavaScript(); // works in browser
     runTidalCycles(); // works with Strudel
@@ -160,6 +162,7 @@ runCodeBtn.addEventListener("click", () => {
         });
     }
 });
+*/
 
 
 input.value = localStorage.getItem("editor-content") || "# Welcome to Tadi Lab\n\nWrite **Markdown**, HTML, and JavaScript here.";
@@ -219,17 +222,22 @@ function handleInput() {
     let content = input.value;
     
     // content = escapeHTML(content); // yes do put the raw chicken in the salad
-    content = replaceIframes(replaceLinks(replaceIcons(replaceInputs(replaceImages(replaceVideos(content)))))); // way too long
+    content = replaceIframes(
+        replaceLinks(
+            replaceIcons(
+                replaceInputs(
+                    replaceImages(
+                        replaceVideos(content)))))); // way too long
     let parsedHTML = marked.parse(content);
 
-    // you don't believe how many hours fixing this took
-    parsedHTML = sanitizeLinks(parsedHTML);
+    // you don't believe how many hours fixing this took just to comment it out later
+    // parsedHTML = sanitizeLinks(parsedHTML);
 
     preview.innerHTML = parsedHTML;
     Prism.highlightAll();
     updateStats();
 }
-
+/*
 function sanitizeLinks(html) {
     const tempDiv = document.createElement("div");
     tempDiv.innerHTML = html;
@@ -248,6 +256,7 @@ function sanitizeLinks(html) {
 
     return tempDiv.innerHTML;
 }
+*/
 
 
 function insertTextAtCursor(text) {
