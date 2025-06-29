@@ -2433,6 +2433,33 @@ Prism.languages.arff = {
 	'punctuation': /[{},]/
 };
 
+Prism.languages.gulfofmexico = Prism.languages.extend('javascript', {
+	'keyword': /\b(?:when|previous)/,
+	'boolean': /\b(?:maybe)/,
+	'template-string': {
+		pattern: /`(?:\\[\s\S]|\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}|(?!\$\{)[^\\`])*`/,
+		greedy: true,
+		inside: {
+			'template-punctuation': {
+				pattern: /^`|`$/,
+				alias: 'string'
+			},
+			'interpolation': {
+				pattern: /((?:^|[^\\])(?:\\{2})*)[\$\£\¥\₩\€]\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}/,
+				lookbehind: true,
+				inside: {
+					'interpolation-punctuation': {
+						pattern: /^\$\{|\}$/,
+						alias: 'punctuation'
+					},
+					rest: Prism.languages.javascript
+				}
+			},
+			'string': /[\s\S]+/
+		}
+	},
+});
+
 Prism.languages.armasm = {
 	'comment': {
 		pattern: /;.*/,
