@@ -148,7 +148,10 @@ fileExtensionSelect.addEventListener("change", () => {
     defaultFileExtension = fileExtensionSelect.value;
 });
 
-input.addEventListener("input", handleInput);
+input.addEventListener("input", () => {
+    handleInput();
+    localStorage.setItem("editor-content", input.value);
+});
 
 // under construction
 /*
