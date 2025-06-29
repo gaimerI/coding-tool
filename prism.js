@@ -2433,32 +2433,52 @@ Prism.languages.arff = {
 	'punctuation': /[{},]/
 };
 
-Prism.languages.gulfofmexico = Prism.languages.extend('javascript', {
-	'keyword': /\b(?:when|previous)/,
-	'boolean': /\b(?:maybe)/,
-	'template-string': {
-		pattern: /`(?:\\[\s\S]|\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}|(?!\$\{)[^\\`])*`/,
-		greedy: true,
-		inside: {
-			'template-punctuation': {
-				pattern: /^`|`$/,
-				alias: 'string'
-			},
-			'interpolation': {
-				pattern: /((?:^|[^\\])(?:\\{2})*)[\$\£\¥\₩\€]\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}/,
-				lookbehind: true,
-				inside: {
-					'interpolation-punctuation': {
-						pattern: /^\$\{|\}$/,
-						alias: 'punctuation'
-					},
-					rest: Prism.languages.javascript
-				}
-			},
-			'string': /[\s\S]+/
+Prism.languages.gulfofmexico = {
+	'comment': [
+		{
+			pattern: /(^|[^\\])\/\*[\s\S]*?(?:\*\/|$)/,
+			lookbehind: true,
+			greedy: true
+		},
+		{
+			pattern: /(^|[^\\:])\/\/.*/,
+			lookbehind: true,
+			greedy: true
 		}
+	],
+	'string': {
+		pattern: /(["']+)(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1+/,
+		greedy: true
 	},
-});
+	'class-name': [
+		{
+			pattern: /(\b(?:class|extends|implements|instanceof|interface|new|trait)\s+|\bcatch\s+\()[\w.\\]+/i,
+		        lookbehind: true,
+		        inside: {
+			        'punctuation': /[.\\]/
+			}
+		},
+		{
+			pattern: /(^|[^$\w\xA0-\uFFFF])(?!\s)[_$A-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\.(?:constructor|prototype))/,
+			lookbehind: true
+		}
+	],
+	'keyword': [
+		{
+			pattern: /((?:^|\})\s*)catch\b/,
+			lookbehind: true
+		},
+		{
+			pattern: /(^|[^.]|\.\.\.\s*)\b(?:as|assert(?=\s*\{)|async(?=\s*(?:function\b|\(|[$\w\xA0-\uFFFF]|$))|await|break|case|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally(?=\s*(?:\{|$))|from(?=\s*(?:['"]|$))|(?= *[functio])( )*(f?u?n?c?t?i?o?n?)+( *)([^()\n ]+)( *\\()(.*?)(\\) +=>)|(?:get|set)(?=\s*(?:[#\[$\w\xA0-\uFFFF]|$))|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)\b/,
+			lookbehind: true
+		},
+	],
+	'boolean': /\b(?:false|true|maybe)\b/,
+	'function': /#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*(?:\.\s*(?:apply|bind|call)\s*)?\()/,
+	'number': /\b0x[\da-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?/i,
+	'operator': /[<>]=?|[!=]=?=?=?|--?|\+\+?|&&?|\|\|?|!|[?*/~^%]/,
+	'punctuation': /[{}[\]!(),.:]/
+};
 
 Prism.languages.armasm = {
 	'comment': {
