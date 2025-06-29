@@ -71,7 +71,7 @@ uploadInput.addEventListener("change", (event) => {
     if (file) {
         const reader = new FileReader();
         reader.onload = (e) => {
-            input.value = e.target.result;
+            input.value = e.target.result; // i love opening my png as text
             handleInput();
         };
         reader.readAsText(file);
@@ -89,7 +89,7 @@ pauseTimerBtn.addEventListener("click", pauseTimer);
 resetTimerBtn.addEventListener("click", resetTimer);
 
 
-input.addEventListener("keydown", (event) => {
+input.addEventListener("keydown", (event) => { // no mobile :(
     if (event.key === "(") {
         insertTextAtCursor("()");
         event.preventDefault();
@@ -158,7 +158,7 @@ runCodeBtn.addEventListener("click", () => {
     
     if (window.languageConfigs) {
         window.languageConfigs.forEach(config => {
-            runCode(config.language, config.compiler, config.flags);
+            runCode(config.language, config.compiler, config.flags); // is supposed to work with compiler-explorer but that bitchass can't run code
         });
     }
 });
@@ -184,20 +184,20 @@ main();
 
 async function initializeData() {
     try {
-        // load required JSON files
+        // load JSON files
         window.iconMap = await loadJSON('/coding-tool/data/iconMap.json');
         window.allowedIframeSources = await loadJSON('/coding-tool/data/allowedIframeSources.json');
         window.languageConfigs = await loadJSON('/coding-tool/data/languageConfigs.json');
         window.inputReplacements = (await import('/coding-tool/data/inputReplacements.js')).default;
         
-        console.log("Data Loaded Successfully", {
+        console.log("Did it", {
             iconMap,
             allowedIframeSources,
             languageConfigs
         });
     } catch (error) {
-        appendErrorMessage(`Error loading JSON files:\n\nMessage: ${error.message}\nStack: ${error.stack}`);
-        console.error("Error details:", error);
+        appendErrorMessage(`Error loading JSON files:\n\nMessage: ${error.message}\nStack: ${error.stack}`); // your a dumbass
+        console.error("Cry about it:");
     }
 }
 
@@ -221,7 +221,7 @@ function handleInput() {
     errorOutput.textContent = "";
     let content = input.value;
     
-    // content = escapeHTML(content); // yes do put the raw chicken in the salad
+    // content = escapeHTML(content); // yes do put the raw chicken in the salad i love when my app gets xss
     content = replaceIframes(
         replaceLinks(
             replaceIcons(
@@ -230,7 +230,7 @@ function handleInput() {
                         replaceVideos(content)))))); // way too long
     let parsedHTML = marked.parse(content);
 
-    // you don't believe how many hours fixing this took just to comment it out later
+    // you don't believe how many hours fixing this took (just to comment it out later)
     // parsedHTML = sanitizeLinks(parsedHTML);
 
     preview.innerHTML = parsedHTML;
@@ -304,7 +304,7 @@ function resetTimer() {
     isPaused = false;
     timer.style.color = "inherit";
     timer.textContent = "Time spent editing: 00:00:00";
-    lapContainer.innerHTML = ""; // this could be made a prompt
+    lapContainer.innerHTML = ""; // this could be made a prompt (wdym?)
     resumeTimerBtn.style.display = "none";
     pauseTimerBtn.style.display = "inherit";
 }
@@ -336,6 +336,7 @@ function runJavaScript() {
             new Function(block.textContent)();
         } catch (e) {
             appendErrorMessage("JavaScript Error: " + e.message);
+            console.error("You suck" + e.message);
         }
     });
 }
@@ -345,13 +346,13 @@ function runTidalCycles() {
     codeBlocks.forEach((block) => {
         try {
             const tidalCode = block.textContent;
-            const base64Code = btoa(unescape(encodeURIComponent(tidalCode))); // Encode to Base64
+            const base64Code = btoa(unescape(encodeURIComponent(tidalCode))); // base64
             const iframe = document.createElement("iframe");
             iframe.src = `https://strudel.cc/#${base64Code}`;
             iframe.width = "100%";
             iframe.height = "400px";
             iframe.style.border = "none";
-            // Append the iframe to the preview area
+            // this works
             block.replaceWith(iframe);
         } catch (e) {
             appendErrorMessage("TidalCycles Error: " + e.message);
@@ -380,12 +381,13 @@ function runCode(language, compilerId, options = "") {
 
             const encodedCode = btoa(JSON.stringify(payload));
             const iframe = document.createElement("iframe");
-            iframe.src = `https://${language}.compiler-explorer.com/clientstate/${encodedCode}`;
-            iframe.width = "100%";
+            iframe.src = `https://${language}.compiler-explorer.com/clientstate/${encodedCode}`; // problem: compiles successfully but doesn't run
+            iframe.width = "100%";                                                               // also doesn't support everything that Prism can highlight
             iframe.height = "400px";
             block.replaceWith(iframe);
         } catch (e) {
-            appendErrorMessage(`${language.charAt(0).toUpperCase() + language.slice(1)} Error: ` + e.message);
+            // appendErrorMessage(`${language.charAt(0).toUpperCase() + language.slice(1)} Error: ` + e.message);
+            // it's ok
         }
     });
 }
