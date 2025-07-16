@@ -409,7 +409,7 @@ function updateStats() {
 
     stats.textContent = `Words: ${words} | Characters: ${chars} | Reading Time: ${formattedTime}`;
     
-    $('.string-example').highlightWithinTextarea({
+    $('.input').highlightWithinTextarea({
         highlight: 'potato'
     });
 }
