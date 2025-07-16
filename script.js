@@ -177,7 +177,8 @@ intervalId = setInterval(updateTimer, 1000);
 
 async function main() {
     $('.input').highlightWithinTextarea({
-        highlight: 'potato'
+        highlight: 'potato',
+        className: 'red'
     });
     await initializeData(); // wait load
     handleInput(); // now start
