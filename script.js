@@ -397,17 +397,21 @@ function runCode(language, compilerId, options = "") {
 
 
 function updateStats() {
-  const text = input.value.trim();
-  const words = text ? text.match(/\b\w+\b/g)?.length || 0 : 0;
-  const chars = text.length;
+    const text = input.value.trim();
+    const words = text ? text.match(/\b\w+\b/g)?.length || 0 : 0;
+    const chars = text.length;
     
-  const wordsPerMinute = 200;
-  const readingMinutes = words / wordsPerMinute;
-  const minutes = Math.floor(readingMinutes);
-  const seconds = Math.round((readingMinutes - minutes) * 60);
-  const formattedTime = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    const wordsPerMinute = 200;
+    const readingMinutes = words / wordsPerMinute;
+    const minutes = Math.floor(readingMinutes);
+    const seconds = Math.round((readingMinutes - minutes) * 60);
+    const formattedTime = `${minutes}:${seconds.toString().padStart(2, '0')}`;
 
-  stats.textContent = `Words: ${words} | Characters: ${chars} | Reading Time: ${formattedTime}`;
+    stats.textContent = `Words: ${words} | Characters: ${chars} | Reading Time: ${formattedTime}`;
+    
+    $('.string-example').highlightWithinTextarea({
+        highlight: 'potato'
+    });
 }
 
 function createSafeIframe(src) {
