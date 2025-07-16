@@ -176,10 +176,6 @@ if (localStorage.getItem("dark-mode") === "enabled") {
 intervalId = setInterval(updateTimer, 1000);
 
 async function main() {
-    $('.input').highlightWithinTextarea({
-        highlight: 'potato',
-        className: 'red'
-    });
     await initializeData(); // wait load
     handleInput(); // now start
 }
@@ -412,8 +408,6 @@ function updateStats() {
     const formattedTime = `${minutes}:${seconds.toString().padStart(2, '0')}`;
 
     stats.textContent = `Words: ${words} | Characters: ${chars} | Reading Time: ${formattedTime}`;
-
-    $('.my-textarea').highlightWithinTextarea('update');
 }
 
 function createSafeIframe(src) {
