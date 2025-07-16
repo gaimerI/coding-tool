@@ -411,6 +411,8 @@ function updateStats() {
     const formattedTime = `${minutes}:${seconds.toString().padStart(2, '0')}`;
 
     stats.textContent = `Words: ${words} | Characters: ${chars} | Reading Time: ${formattedTime}`;
+
+    $('.my-textarea').highlightWithinTextarea('update');
 }
 
 function createSafeIframe(src) {
