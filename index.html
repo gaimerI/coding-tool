@@ -10,6 +10,13 @@
         <link rel="stylesheet" href="lib/prism.css" />
         <!-- <link href="lib/jquery.highlight-within-textarea.css" rel="stylesheet" /> -->
         <link rel="stylesheet" href="styles.css" />
+
+        <script src="lib/prism.js"></script>
+        <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
+        <!-- <script src="lib/jquery.highlight-within-textarea.js"></script> -->
+        <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+        <script>eruda.init();</script>
     </head>
 
     <body class="line-numbers">
@@ -26,6 +33,9 @@
                 <details class="ui" id="settings-dropdown">
                 <summary>Settings</summary>
                     <ul class="settings-options ui">
+                        <li>
+                            Version 1.0
+                        </li>
                         <li>
                             <label for="font-select">Editor Font:</label>
                             <select class="ui" id="font-select">
@@ -74,10 +84,6 @@
 
         <!-- i <3 open-source -->
 
-        <script src="lib/prism.js"></script>
-        <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
-        <!-- <script src="lib/jquery.highlight-within-textarea.js"></script> -->
         <script type="module" src="script.js"></script>
     </body>
 </html>
