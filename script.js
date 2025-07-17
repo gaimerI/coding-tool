@@ -230,7 +230,7 @@ function setupConsole() {
 
     let info = eruda.get('info');
     info.add('Language', () => navigator.language);
-    info.add('Date', () => new Intl.DateTimeFormat(navigator.language).format(new Date("2012-05-24")));
+    info.add('Date', () => new Intl.DateTimeFormat(navigator.language).format(Date.now()));
 }
 
 /*
