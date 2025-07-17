@@ -187,6 +187,7 @@ intervalId = setInterval(updateTimer, 1000);
 
 async function main() {
     await initializeData(); // wait load
+    setupConsole();
     handleInput(); // now start
 }
 
@@ -217,6 +218,19 @@ async function initializeData() {
 async function loadJSON(url) {
   const response = await fetch(url);
   return response.json();
+}
+
+function setupConsole() {
+    let console = eruda.get('console');
+    console.config.set('catchGlobalErr', true);
+    console.config.set('displayExtraInfo', true);
+
+    let elements = eruda.get('elements');
+    elements.config.set('overrideEventTarget', true);
+
+    let info = eruda.get('info');
+    info.add('Language', () => navigator.language);
+    info.add('Date', () => new Intl.DateTimeFormat(navigator.language).format(new Date("2012-05-24")));
 }
 
 /*
