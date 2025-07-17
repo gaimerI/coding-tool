@@ -85,8 +85,14 @@
         <!-- <script src="lib/jquery.highlight-within-textarea.js"></script> -->
         <script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-js"></script>
         <script>
-            const { autocomplete } = window['@algolia/autocomplete-js'];
-        </script>
+            if (window['@algolia/autocomplete-js']) {
+                const { autocomplete } = window['@algolia/autocomplete-js'];
+            } else {
+                console.error('Algolia autocomplete library is not loaded.');
+                alert("oh my god oh hell nah algolia failed to load so skibidi");
+            }
+</script>
+
         <script type="module" src="script.js"></script>
     </body>
 </html>
