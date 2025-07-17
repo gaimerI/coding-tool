@@ -39,6 +39,7 @@ clearBtn.addEventListener("click", () => {
 downloadBtn.addEventListener("click", () => {
     if (!input.value.trim()) {
         appendErrorMessage("Cannot download an empty file.");
+        console.warn("Cannot download an empty file:" + input.value);
         return;
     }
 
@@ -200,7 +201,7 @@ async function initializeData() {
         });
     } catch (error) {
         appendErrorMessage(`Error loading JSON files:\n\nMessage: ${error.message}\nStack: ${error.stack}`); // your a dumbass
-        console.error("Cry about it:");
+        console.error('Error loading JSON files:\n\nMessage: ' + error.message + '\nStack: ' + error.stack);
     }
 }
 
