@@ -1,3 +1,31 @@
+import { autocomplete } from '@algolia/autocomplete-js';
+
+import '@algolia/autocomplete-theme-classic';
+
+autocomplete({
+    container: '#autocomplete',
+    placeholder: 'Search for terms',
+    getSources() {
+        return [
+        {
+        sourceId: 'links',
+        getItems({ query }) {
+          return [
+            { label: 'Twitter', url: 'https://twitter.com' },
+            { label: 'GitHub', url: 'https://github.com' },
+          ].filter(({ label }) =>
+            label.toLowerCase().includes(query.toLowerCase())
+          );
+        },
+        getItemUrl({ item }) {
+          return item.url;
+        },
+      },
+    ];
+  },
+});
+
+
 const input = document.getElementById("input");
 const preview = document.getElementById("preview");
 const clearBtn = document.getElementById("clear");
