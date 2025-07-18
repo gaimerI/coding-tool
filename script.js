@@ -188,6 +188,7 @@ intervalId = setInterval(updateTimer, 1000);
 async function main() {
     await initializeData(); // wait load
     setupConsole();
+    setupAutocomplete();
     handleInput(); // now start
 }
 
@@ -203,15 +204,17 @@ async function initializeData() {
         window.allowedIframeSources = await loadJSON('/coding-tool/data/allowedIframeSources.json');
         window.languageConfigs = await loadJSON('/coding-tool/data/languageConfigs.json');
         window.inputReplacements = (await import('/coding-tool/data/inputReplacements.js')).default;
+        window.autocompleteSearchResults = await loadJSON('/coding-tool/data/autocomplete.json');
         
         console.log("Did it", {
             iconMap,
             allowedIframeSources,
-            languageConfigs
+            languageConfigs,
+            autocompleteSearchResults
         });
     } catch (error) {
-        appendErrorMessage(`Error loading JSON files:\n\nMessage: ${error.message}\nStack: ${error.stack}`); // your a dumbass
-        console.error('Error loading JSON files:\n\nMessage: ' + error.message + '\nStack: ' + error.stack);
+        appendErrorMessage(`Error loading JSON files:\n\nMessage: ${error.message}\nStack: ${error.stack}`);
+        console.error(`Error loading JSON files: ${error.message} (while loading ${url})\nStack: ${error.stack}`);
     }
 }
 
@@ -435,6 +438,48 @@ function sanitizeLinks(html) {
     return tempDiv.innerHTML;
 }
 */
+function setupAutocomplete() {
+const data = {
+        src: autocompleteSearchResults
+};
+    const placeHolder = "Pizza, Burger, Sushi";
+    const resultsList = {
+        element(list, data) {
+            if (!data.results.length) {
+                // Create "No Results" message list element
+                const message = document.createElement("div");
+                message.setAttribute("class", "no_result");
+                // Add message text content
+                message.innerHTML = `<span>Found No Results for "${data.query}"</span>`;
+                // Add message list element to the list
+                list.prepend(message);
+            }
+        },
+        noResults: true,
+    };
+    const resultItem = {
+        highlight: true
+    };
+
+    const autoCompleteJS_01 = new autoComplete({
+        selector: "#auto-complete-search",
+        placeHolder,
+        data,
+        resultsList,
+        resultItem,
+        events: {
+            input: {
+                focus() {
+                    if (autoCompleteJS_01.input.value.length) autoCompleteJS_01.start();
+                },
+                selection(event) {
+                    const selection = event.detail.selection.value;
+                    autoCompleteJS_01.input.value = selection;
+                }
+            },
+        },
+    });
+}
 
 
 function insertTextAtCursor(text) {
