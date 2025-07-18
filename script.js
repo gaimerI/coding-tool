@@ -188,6 +188,7 @@ intervalId = setInterval(updateTimer, 1000);
 async function main() {
     await initializeData(); // wait load
     setupConsole();
+    setupAutocomplete();
     handleInput(); // now start
 }
 
@@ -437,7 +438,7 @@ function sanitizeLinks(html) {
     return tempDiv.innerHTML;
 }
 */
-
+function setupAutocomplete() {
 const data = {
         src: autocompleteSearchResults
 };
@@ -478,6 +479,7 @@ const data = {
             },
         },
     });
+}
 
 
 function insertTextAtCursor(text) {
