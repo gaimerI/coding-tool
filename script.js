@@ -203,11 +203,13 @@ async function initializeData() {
         window.allowedIframeSources = await loadJSON('/coding-tool/data/allowedIframeSources.json');
         window.languageConfigs = await loadJSON('/coding-tool/data/languageConfigs.json');
         window.inputReplacements = (await import('/coding-tool/data/inputReplacements.js')).default;
+        window.autocompleteSearchResults = await loadJSON('coding-tool/data/autocomplete.json');
         
         console.log("Did it", {
             iconMap,
             allowedIframeSources,
-            languageConfigs
+            languageConfigs,
+            autocompleteSearchResults
         });
     } catch (error) {
         appendErrorMessage(`Error loading JSON files:\n\nMessage: ${error.message}\nStack: ${error.stack}`); // your a dumbass
@@ -437,8 +439,8 @@ function sanitizeLinks(html) {
 */
 
 const data = {
-        src: ["Pizza", "Burgers", "Sushi", "Coffee", "Soda", "Fresh Juice"]
-    };
+        src: autocompleteSearchResults
+};
     const placeHolder = "Pizza, Burger, Sushi";
     const resultsList = {
         element(list, data) {
