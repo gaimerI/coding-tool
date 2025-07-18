@@ -335,6 +335,53 @@ benchmark.add('Loop Performance', [
     }
 ]);
 
+        benchmark.add('Array Sorting', [
+    {
+        name: 'Native Array.sort()',
+        fn: function () {
+            const arr = [5, 3, 8, 1, 2, 9, 4, 7, 6];
+            arr.sort((a, b) => a - b);
+        }
+    },
+    {
+        name: 'Insertion Sort (Manual)',
+        fn: function () {
+            const arr = [5, 3, 8, 1, 2, 9, 4, 7, 6];
+            for (let i = 1; i < arr.length; i++) {
+                let key = arr[i];
+                let j = i - 1;
+                while (j >= 0 && arr[j] > key) {
+                    arr[j + 1] = arr[j];
+                    j = j - 1;
+                }
+                arr[j + 1] = key;
+            }
+        }
+    },
+    {
+        name: 'Bogosort 🤪',
+        fn: function () {
+            const arr = [5, 4, 3, 2, 1]; // Keep it small, please 🙏
+            function isSorted(a) {
+                for (let i = 1; i < a.length; i++) {
+                    if (a[i - 1] > a[i]) return false;
+                }
+                return true;
+            }
+            function shuffle(a) {
+                for (let i = a.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [a[i], a[j]] = [a[j], a[i]];
+                }
+            }
+            while (!isSorted(arr)) {
+                shuffle(arr);
+            }
+        }
+    }
+]);
+
+
 }
 
 /*
