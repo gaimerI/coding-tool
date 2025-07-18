@@ -361,7 +361,7 @@ benchmark.add('Loop Performance', [
     {
         name: 'Bogosort 🤪',
         fn: function () {
-            const arr = [5, 4, 3, 2, 1]; // Keep it small, please 🙏
+            const arr = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]; // Keep it small, please 🙏
             function isSorted(a) {
                 for (let i = 1; i < a.length; i++) {
                     if (a[i - 1] > a[i]) return false;
