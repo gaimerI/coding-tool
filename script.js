@@ -339,14 +339,14 @@ benchmark.add('Loop Performance', [
     {
         name: 'Native Array.sort()',
         fn: function () {
-            const arr = [5, 3, 8, 1, 2, 9, 4, 7, 6];
+            const arr = Array.from({ length: 1000 }, () => Math.floor(Math.random() * 100));
             arr.sort((a, b) => a - b);
         }
     },
     {
         name: 'Insertion Sort (Manual)',
         fn: function () {
-            const arr = [5, 3, 8, 1, 2, 9, 4, 7, 6];
+            const arr = Array.from({ length: 1000 }, () => Math.floor(Math.random() * 100));
             for (let i = 1; i < arr.length; i++) {
                 let key = arr[i];
                 let j = i - 1;
