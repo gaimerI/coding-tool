@@ -203,7 +203,7 @@ async function initializeData() {
         window.allowedIframeSources = await loadJSON('/coding-tool/data/allowedIframeSources.json');
         window.languageConfigs = await loadJSON('/coding-tool/data/languageConfigs.json');
         window.inputReplacements = (await import('/coding-tool/data/inputReplacements.js')).default;
-        window.autocompleteSearchResults = await loadJSON('coding-tool/data/autocomplete.json');
+        window.autocompleteSearchResults = await loadJSON('/coding-tool/data/autocomplete.json');
         
         console.log("Did it", {
             iconMap,
