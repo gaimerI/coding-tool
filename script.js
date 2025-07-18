@@ -257,6 +257,84 @@ function setupConsole() {
     }
 ]);
 
+    benchmark.add('Multiplication: Math vs Bitwise', [
+    {
+        name: 'Regular Multiply (x * 2)',
+        fn: function () {
+            let x = 42;
+            x = x * 2;
+        }
+    },
+    {
+        name: 'Bitwise Shift (x << 1)',
+        fn: function () {
+            let x = 42;
+            x = x << 1;
+        }
+    }
+]);
+
+benchmark.add('Loop Performance', [
+    {
+        name: 'Standard for loop',
+        fn: function () {
+            const arr = new Array(1000).fill(1);
+            for (let i = 0; i < arr.length; i++) {
+                arr[i] += 1;
+            }
+        }
+    },
+    {
+        name: 'forEach loop',
+        fn: function () {
+            const arr = new Array(1000).fill(1);
+            arr.forEach((v, i, a) => { a[i] = v + 1; });
+        }
+    },
+    {
+        name: 'for...of loop',
+        fn: function () {
+            let i = 0;
+            const arr = new Array(1000).fill(1);
+            for (const val of arr) {
+                arr[i++] = val + 1;
+            }
+        }
+    }
+]);
+
+    benchmark.add('Deep Copy (Simple Object)', [
+    {
+        name: 'JSON.parse(JSON.stringify)',
+        fn: function () {
+            const obj = { a: 1, b: { c: 2, d: [3, 4] } };
+            const clone = JSON.parse(JSON.stringify(obj));
+        }
+    },
+    {
+        name: 'Structured Clone (if available)',
+        fn: function () {
+            const obj = { a: 1, b: { c: 2, d: [3, 4] } };
+            const clone = structuredClone(obj); // In modern browsers
+        }
+    }
+]);
+
+    benchmark.add('String Replace vs Split/Join', [
+    {
+        name: 'String.replaceAll',
+        fn: function () {
+            'a-b-c-d-e-f'.replaceAll('-', '_');
+        }
+    },
+    {
+        name: 'Split/Join',
+        fn: function () {
+            'a-b-c-d-e-f'.split('-').join('_');
+        }
+    }
+]);
+
 }
 
 /*
