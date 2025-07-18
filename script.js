@@ -212,8 +212,8 @@ async function initializeData() {
             autocompleteSearchResults
         });
     } catch (error) {
-        appendErrorMessage(`Error loading JSON files:\n\nMessage: ${error.message}\nStack: ${error.stack}`); // your a dumbass
-        console.error('Error loading JSON files:\n\nMessage: ' + error.message + '\nStack: ' + error.stack);
+        appendErrorMessage(`Error loading JSON files:\n\nMessage: ${error.message}\nStack: ${error.stack}`);
+        console.error(`Error loading JSON files: ${error.message} (while loading ${url})\nStack: ${error.stack}`);
     }
 }
 
