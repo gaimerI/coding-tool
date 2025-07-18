@@ -436,6 +436,47 @@ function sanitizeLinks(html) {
 }
 */
 
+const data = {
+        src: ["Pizza", "Burgers", "Sushi", "Coffee", "Soda", "Fresh Juice"]
+    };
+    const placeHolder = "Pizza, Burger, Sushi";
+    const resultsList = {
+        element(list, data) {
+            if (!data.results.length) {
+                // Create "No Results" message list element
+                const message = document.createElement("div");
+                message.setAttribute("class", "no_result");
+                // Add message text content
+                message.innerHTML = `<span>Found No Results for "${data.query}"</span>`;
+                // Add message list element to the list
+                list.prepend(message);
+            }
+        },
+        noResults: true,
+    };
+    const resultItem = {
+        highlight: true
+    };
+
+    const autoCompleteJS_01 = new autoComplete({
+        selector: "#auto-complete-search",
+        placeHolder,
+        data,
+        resultsList,
+        resultItem,
+        events: {
+            input: {
+                focus() {
+                    if (autoCompleteJS_01.input.value.length) autoCompleteJS_01.start();
+                },
+                selection(event) {
+                    const selection = event.detail.selection.value;
+                    autoCompleteJS_01.input.value = selection;
+                }
+            },
+        },
+    });
+
 
 function insertTextAtCursor(text) {
   const start = input.selectionStart;
