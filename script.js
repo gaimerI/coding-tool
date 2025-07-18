@@ -231,6 +231,32 @@ function setupConsole() {
     let info = eruda.get('info');
     info.add('Language', () => navigator.language);
     info.add('Date', () => new Intl.DateTimeFormat(navigator.language).format(Date.now()));
+
+    let benchmark = eruda.get('benchmark');
+    benchmark.add('Array Cloning', [
+        {
+        name: 'Spread operator',
+        fn: function () {
+            const arr = [1, 2, 3, 4, 5];
+            const clone = [...arr];
+        }
+    },
+    {
+        name: 'Slice method',
+        fn: function () {
+            const arr = [1, 2, 3, 4, 5];
+            const clone = arr.slice();
+        }
+    },
+    {
+        name: 'Array.from',
+        fn: function () {
+            const arr = [1, 2, 3, 4, 5];
+            const clone = Array.from(arr);
+        }
+    }
+]);
+
 }
 
 /*
