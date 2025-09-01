@@ -9,7 +9,7 @@
         <!-- Styles -->
         <link rel="stylesheet" href="lib/prism.css" />
         <!-- <link href="lib/jquery.highlight-within-textarea.css" rel="stylesheet" /> -->
-        <link rel="stylesheet" href="https://gaimeri.github.io/styles.css">
+        <!-- <link rel="stylesheet" href="https://gaimeri.github.io/styles.css"> -->
         <link rel="stylesheet" href="styles.css">
         <link href="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.9/dist/css/autoComplete.02.min.css" rel="stylesheet">
 
@@ -27,7 +27,7 @@
         <script src="lib/autoindent.js"></script>
     </head>
 
-    <body class="line-numbers">
+    <body>
         <div id="toolbar">
             <div>
                 <button class="ui" id="clear">Clear</button>
@@ -90,7 +90,7 @@
 
 
         <main>
-            <textarea id="input" wrap="off" spellcheck="false"></textarea>
+            <textarea id="input" wrap="off" spellcheck="false" class="line-numbers" autocapitalize="off" autocomplete="off" autocorrect="off" rows="15"></textarea>
             <div id="preview"></div>
         </main>
 
