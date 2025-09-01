@@ -26,6 +26,15 @@ ul.ui {
   padding: 5px;
 }
 
+button.ui {
+  padding: 0.5rem 1rem;
+  border: none;
+  cursor: pointer;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  max-height: 3em;
+}
+
 select.ui {
   padding: 0.5rem 1rem;
   border: none;
@@ -79,6 +88,17 @@ select.ui {
   display: none;
 }
 
+details {
+  color: black;
+  position: relative;
+}
+
+details summary {
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  background: #eee;
+}
+
 details[open] ul {
   position: absolute;
   background: white;
@@ -126,4 +146,3 @@ details[open] ul {
   background: #555;
   color: #fff;
 }
-
