@@ -90,31 +90,19 @@ pauseTimerBtn.addEventListener("click", pauseTimer);
 
 resetTimerBtn.addEventListener("click", resetTimer);
 
+const pairs = {
+    '(': '()',
+    '[': '[]',
+    '{': '{}',
+    "'": "''",
+    '"': '""'
+};
 
-input.addEventListener("keydown", (event) => { // no mobile :(
-    if (event.key === "(") {
-        insertTextAtCursor("()");
+input.addEventListener("keydown", (event) => {
+    if (pairs[event.key]) {
+        insertTextAtCursor(pairs[event.key]);
         event.preventDefault();
-    }
-
-    if (event.key === "[") {
-        insertTextAtCursor("[]");
-        event.preventDefault();
-    }
-
-    if (event.key === "{") {
-        insertTextAtCursor("{}");
-        event.preventDefault();
-    }
-
-    if (event.key === "'") {
-        insertTextAtCursor("''");
-        event.preventDefault();
-    }
-
-    if (event.key === '"') {
-        insertTextAtCursor('""');
-        event.preventDefault();
+        handleInput();
     }
 });
 
@@ -123,18 +111,21 @@ document.addEventListener("keydown", (event) => {
         insertTextAtCursor("****");
         input.selectionStart -= 2;
         event.preventDefault();
+        handleInput()
     }
 
     if (event.ctrlKey && event.key === "i") {
         insertTextAtCursor("**");
         input.selectionStart -= 1;
         event.preventDefault();
+        handleInput()
     }
 
     if (event.ctrlKey && event.key === "k") {
         insertTextAtCursor("[text](url)");
         input.selectionStart -= 4;
         event.preventDefault();
+        handleInput()
     }
 });
 
