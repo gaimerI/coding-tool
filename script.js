@@ -110,21 +110,21 @@ input.addEventListener("keydown", (event) => {
 document.addEventListener("keydown", (event) => {
     if (event.ctrlKey && event.key === "b") {
         insertTextAtCursor("****");
-        input.selectionStart -= 2;
+        input.selectionStart -= 4;
         event.preventDefault();
         handleInput()
     }
 
     if (event.ctrlKey && event.key === "i") {
         insertTextAtCursor("**");
-        input.selectionStart -= 1;
+        input.selectionStart -= 2;
         event.preventDefault();
         handleInput()
     }
 
     if (event.ctrlKey && event.key === "k") {
         insertTextAtCursor("[text](url)");
-        input.selectionStart -= 4;
+        input.selectionStart -= 8;
         event.preventDefault();
         handleInput()
     }
@@ -368,7 +368,7 @@ benchmark.add('Loop Performance', [
         }
     },
     {
-        name: 'Bogosort 🤪',
+        name: 'Bogosort',
         fn: function () {
             const arr = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]; // Keep it small, please 🙏
             function isSorted(a) {
@@ -409,12 +409,7 @@ function handleInput() {
     let content = input.value;
     
     // content = escapeHTML(content); // yes do put the raw chicken in the salad i love when my app gets xss
-    content = replaceIframes(
-        replaceLinks(
-            replaceIcons(
-                replaceInputs(
-                    replaceImages(
-                        replaceVideos(content)))))); // way too long
+    content = content;
     let parsedHTML = marked.parse(content);
 
     // you don't believe how many hours fixing this took (just to comment it out later)
@@ -558,6 +553,7 @@ function exportLapTimes() {
   URL.revokeObjectURL(url);
 }
 
+/*
 function runJavaScript() {
     const codeBlocks = preview.querySelectorAll("code.language-js");
     codeBlocks.forEach((block) => {
@@ -620,7 +616,7 @@ function runCode(language, compilerId, options = "") {
         }
     });
 }
-
+*/
 
 function updateStats() {
     const text = input.value.trim();
@@ -636,6 +632,7 @@ function updateStats() {
     stats.textContent = `Words: ${words} | Characters: ${chars} | Reading Time: ${formattedTime}`;
 }
 
+/*
 function createSafeIframe(src) {
   try {
     const url = new URL(src);
@@ -692,6 +689,7 @@ function replaceLinks(text) {
         const link = createSafeHyperlink(url.trim(), linkText ? linkText.trim() : null);
         return link ? link.outerHTML : '<p style="color:red;">Invalid link</p>'; });
 }
+*/
 
 function appendErrorMessage(message) {
     if (!errorOutput) return;
@@ -701,6 +699,7 @@ function appendErrorMessage(message) {
     errorOutput.appendChild(errorParagraph);
 }
 
+/*
 function replaceInputs(text) {
     return inputReplacements.reduce((acc, {
         regex,
@@ -760,4 +759,4 @@ function createSafeVideoElement(dataURL) {
         return null;
     }
 }
-
+*/
