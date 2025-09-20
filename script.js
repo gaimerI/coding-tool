@@ -19,6 +19,7 @@ const fontSelect = document.getElementById("font-select");
 const fileNameInput = document.getElementById("file-name");
 const fileExtensionSelect = document.getElementById("file-extension");
 const consoleToggleCheckbox = document.getElementById('console-toggle');
+const editModeSelect = document.getElementById('edit-mode');
 let defaultFileName = "tadi_lab";
 let defaultFileExtension = "txt";
 
@@ -182,6 +183,20 @@ async function main() {
     setupAutocomplete();
     handleInput(); // now start
 }
+
+editModeSelect.addEventListener('change', function() {
+    const selectedValue = editModeSelect.value;
+    if (selectedValue === 'input-only') {
+        input.classList.remove('hidden');
+        preview.classList.add('hidden');
+    } else if (selectedValue === 'output-only') {
+        input.classList.add('hidden');
+        preview.classList.remove('hidden');
+    } else if (selectedValue === 'both') {
+        input.classList.remove('hidden');
+        preview.classList.remove('hidden');
+    }
+});
 
 // start
 main();
