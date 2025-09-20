@@ -20,7 +20,7 @@ const fileNameInput = document.getElementById("file-name");
 const fileExtensionSelect = document.getElementById("file-extension");
 const consoleToggleCheckbox = document.getElementById('console-toggle');
 const editModeSelect = document.getElementById('edit-mode');
-let defaultFileName = "tadi_lab";
+let defaultFileName = "text";
 let defaultFileExtension = "txt";
 
 let startTime = performance.now();
