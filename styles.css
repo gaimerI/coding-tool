@@ -150,3 +150,13 @@ details[open] ul {
   background: #555;
   color: #fff;
 }
+
+blockquote {
+  border-left: 3px solid #ccc;
+  padding-left: 0.5rem;
+}
+
+td, th {
+  border: 2px solid #ccc;
+  padding-left: 0.25em
+}
