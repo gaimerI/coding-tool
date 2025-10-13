@@ -37,9 +37,15 @@ hashGenButton.addEventListener("click", async function() {
     const data = enc.encode(input.value);
     const digest = await crypto.subtle.digest(algorithm, data);
     const bytes = new Uint8Array(digest);
-    if (encoding === 'hex') return Array.from(bytes).map(b => b.toString(16).padStart(2,'0')).join('');
-    if (encoding === 'base64') return btoa(String.fromCharCode(...bytes));
-    console.log(bytes);
+    if (encoding === 'hex') {
+        const result = Array.from(bytes).map(b => b.toString(16).padStart(2,'0')).join('');
+    }
+    
+    if (encoding === 'base64') {
+        const result = btoa(String.fromCharCode(...bytes));
+    }
+    console.log(result);
+    hashSpan.textContent = `File hash: ${result}`;
 })
 
 toggleModeBtn.addEventListener("click", () => {
