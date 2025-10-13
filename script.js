@@ -40,7 +40,6 @@ hashGenButton.addEventListener("click", async function() {
     if (encoding === 'hex') return Array.from(bytes).map(b => b.toString(16).padStart(2,'0')).join('');
     if (encoding === 'base64') return btoa(String.fromCharCode(...bytes));
     console.log(bytes);
-}
 })
 
 toggleModeBtn.addEventListener("click", () => {
