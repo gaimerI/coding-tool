@@ -70,16 +70,37 @@ downloadBtn.addEventListener("click", () => {
 uploadBtn.addEventListener("click", () => uploadInput.click());
 
 uploadInput.addEventListener("change", (event) => {
-    const file = event.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            input.value = e.target.result; // i love opening my png as text
-            handleInput();
-        };
-        reader.readAsText(file);
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const isText = file.type.startsWith("text/") || /\.(txt|csv|log|md|json|xml|html?|js|css|yaml|yml)$/i.test(file.name);
+
+  const reader = new FileReader();
+
+  reader.onload = (e) => {
+    if (isText) {
+      input.value = e.target.result; // text content
+    } else {
+      // ArrayBuffer -> hex string
+      const bytes = new Uint8Array(e.target.result);
+      let hex = "";
+      for (let i = 0; i < bytes.length; i++) {
+        hex += bytes[i].toString(16).padStart(2, "0");
+        if (i % 16 === 15) hex += "\n";
+        else hex += " ";
+      }
+      input.value = hex;
     }
+    handleInput();
+  };
+
+  if (isText) {
+    reader.readAsText(file);
+  } else {
+    reader.readAsArrayBuffer(file);
+  }
 });
+
 
 lapBtn.addEventListener("click", recordLap); // why lap times? why not?
 
@@ -154,20 +175,6 @@ consoleToggleCheckbox.addEventListener('change', function() {
         eruda.destroy();
     }
 });
-
-// under construction
-/*
-runCodeBtn.addEventListener("click", () => {
-    runJavaScript(); // works in browser
-    runTidalCycles(); // works with Strudel
-    
-    if (window.languageConfigs) {
-        window.languageConfigs.forEach(config => {
-            runCode(config.language, config.compiler, config.flags); // is supposed to work with compiler-explorer but that bitchass can't run code
-        });
-    }
-});
-*/
 
 
 input.value = localStorage.getItem("editor-content") || "# Welcome to Tadi Lab\n\nWrite **Markdown**, HTML, and JavaScript here.";
@@ -393,17 +400,6 @@ benchmark.add('Loop Performance', [
 
 }
 
-/*
-function escapeHTML(str) {
-  return str
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    // quotes are free
-    .replace(/'/g, "&#039;");
-}
-*/ // i don't care
-
 function handleInput() {
     errorOutput.textContent = "";
     let content = input.value;
@@ -419,26 +415,7 @@ function handleInput() {
     Prism.highlightAll();
     updateStats();
 }
-/*
-function sanitizeLinks(html) {
-    const tempDiv = document.createElement("div");
-    tempDiv.innerHTML = html;
 
-    tempDiv.querySelectorAll("a").forEach(link => {
-        try {
-            const url = new URL(link.href);
-            const allowed = [...allowedIframeSources].some(allowed => url.origin.startsWith(allowed));
-            if (!allowed) {
-                link.outerHTML = '<p style="color:red;">Invalid link</p>';
-            }
-        } catch (e) {
-            link.outerHTML = '<p style="color:red;">Invalid link</p>';
-        }
-    });
-
-    return tempDiv.innerHTML;
-}
-*/
 function setupAutocomplete() {
 const data = {
         src: autocompleteSearchResults
@@ -553,71 +530,6 @@ function exportLapTimes() {
   URL.revokeObjectURL(url);
 }
 
-/*
-function runJavaScript() {
-    const codeBlocks = preview.querySelectorAll("code.language-js");
-    codeBlocks.forEach((block) => {
-        try {
-            new Function(block.textContent)();
-        } catch (e) {
-            appendErrorMessage("JavaScript Error: " + e.message);
-            console.error("You suck" + e.message);
-        }
-    });
-}
-
-function runTidalCycles() {
-    const codeBlocks = preview.querySelectorAll("code.language-tidalcycles");
-    codeBlocks.forEach((block) => {
-        try {
-            const tidalCode = block.textContent;
-            const base64Code = btoa(unescape(encodeURIComponent(tidalCode))); // base64
-            const iframe = document.createElement("iframe");
-            iframe.src = `https://strudel.cc/#${base64Code}`;
-            iframe.width = "100%";
-            iframe.height = "400px";
-            iframe.style.border = "none";
-            // this works
-            block.replaceWith(iframe);
-        } catch (e) {
-            appendErrorMessage("TidalCycles Error: " + e.message);
-        }
-    });
-}
-
-function runCode(language, compilerId, options = "") {
-    const codeBlocks = preview.querySelectorAll(`code.language-${language}`);
-    
-    codeBlocks.forEach((block) => {
-        try {
-            const userCode = block.textContent;
-
-            const payload = {
-                sessions: [{
-                    id: 1,
-                    language: language,
-                    source: userCode,
-                    compilers: [{
-                        id: compilerId,
-                        options: options
-                    }]
-                }]
-            };
-
-            const encodedCode = btoa(JSON.stringify(payload));
-            const iframe = document.createElement("iframe");
-            iframe.src = `https://${language}.compiler-explorer.com/clientstate/${encodedCode}`; // problem: compiles successfully but doesn't run
-            iframe.width = "100%";                                                               // also doesn't support everything that Prism can highlight
-            iframe.height = "400px";
-            block.replaceWith(iframe);
-        } catch (e) {
-            // appendErrorMessage(`${language.charAt(0).toUpperCase() + language.slice(1)} Error: ` + e.message);
-            // it's ok
-        }
-    });
-}
-*/
-
 function updateStats() {
     const text = input.value.trim();
     const words = text ? text.match(/\b\w+\b/g)?.length || 0 : 0;
@@ -632,65 +544,6 @@ function updateStats() {
     stats.textContent = `Words: ${words} | Characters: ${chars} | Reading Time: ${formattedTime}`;
 }
 
-/*
-function createSafeIframe(src) {
-  try {
-    const url = new URL(src);
-    if (!allowedIframeSources.some(allowed => url.origin.startsWith(allowed))) {
-      throw new Error("Iframe source not allowed.");
-    }
-    const iframe = document.createElement("iframe");
-    iframe.src = src;
-    iframe.width = "100%";
-    iframe.height = "400px";
-    iframe.sandbox = "allow-scripts allow-same-origin allow-popups";
-    return iframe;
-  } catch (e) {
-      appendErrorMessage("IFrame Error: " + e.message);
-    return null;
-  }
-}
-
-function createSafeHyperlink(src, text) {
-    try {
-        if (!/^https?:\/\//i.test(src)) {
-            throw new Error("Invalid URL format.");
-        } const url = new URL(src);
-        if (![...allowedIframeSources].some(allowed => url.origin.startsWith(allowed))) {
-            throw new Error("Link source not allowed.");
-        }
-        const link = document.createElement("a");
-        link.href = url.href;
-        link.target = "_blank";
-        link.rel = "noopener noreferrer";
-        link.textContent = text || url.href; // Use provided text or default to the URL
-        return link;
-    } catch (e) {
-        appendErrorMessage("Link Error: " + e.message);
-        return null;
-    }
-}
-
-function replaceIframes(text) {
-  return text.replace(/:iframe src="([^"]+)":/g, (match, url) => { // regex matches :iframe src="http(s)://www.url.tld":
-    const iframe = createSafeIframe(url); // make iframe use "::" instead of "[]" is done
-    return iframe ? iframe.outerHTML : '<p style="color:red;">Invalid iframe.</p>';
-  });
-}
-
-function replaceIcons(text) {
-  return text.replace(/:icon type="([^"]+)":/g, (match, type) => {
-    return iconMap[type] || type;
-  });
-}
-
-function replaceLinks(text) {
-    return text.replace(/:link src="([^"]+)"(?: text="([^"]*)")?:/g, (match, url, linkText) => {
-        const link = createSafeHyperlink(url.trim(), linkText ? linkText.trim() : null);
-        return link ? link.outerHTML : '<p style="color:red;">Invalid link</p>'; });
-}
-*/
-
 function appendErrorMessage(message) {
     if (!errorOutput) return;
     const errorParagraph = document.createElement("p");
@@ -698,65 +551,3 @@ function appendErrorMessage(message) {
     errorParagraph.textContent = message;
     errorOutput.appendChild(errorParagraph);
 }
-
-/*
-function replaceInputs(text) {
-    return inputReplacements.reduce((acc, {
-        regex,
-        template
-    }) => acc.replace(regex, template),text);
-}
-
-function replaceImages(text) {
-    return text.replace(/:image src="([^"]+)"(?: alt="([^"]*)")?:/g, (match, src, altText) => {
-        const img = createSafeImageElement(src.trim(), altText ? altText.trim() : null);
-        return img ? img.outerHTML : '<p style="color:red;">Invalid image</p>';
-    });
-}
-
-function createSafeImageElement(dataURL, alt) {
-    try {
-        // Basic validation of data URL
-        if (!/^data:image\/(png|jpeg|jpg|gif|webp);base64,[a-z0-9+/=]+$/i.test(dataURL)) {
-            throw new Error("Invalid or unsupported data URL.");
-        }
-
-        const img = document.createElement("img");
-        img.src = dataURL;
-        img.alt = alt || "Embedded Image";
-        img.style.maxWidth = "100%";
-        img.loading = "lazy";
-        return img;
-    } catch (e) {
-        appendErrorMessage("Image Error: " + e.message);
-        return null;
-    }
-}
-
-function replaceVideos(text) {
-    return text.replace(/:video src="([^"]+)"(?: controls)?:/g, (match, src) => {
-        const video = createSafeVideoElement(src.trim());
-        return video ? video.outerHTML : '<p style="color:red;">Invalid video</p>';
-    });
-}
-
-function createSafeVideoElement(dataURL) {
-    try {
-        // Basic validation of data URL format for video
-        if (!/^data:video\/(mp4|webm|ogg);base64,[a-z0-9+/=]+$/i.test(dataURL)) {
-            throw new Error("Invalid or unsupported video data URL.");
-        }
-
-        const video = document.createElement("video");
-        video.src = dataURL;
-        video.controls = true;
-        video.style.maxWidth = "100%";
-        video.style.display = "block";
-        video.loading = "lazy"; // hint to browser (some support it)
-        return video;
-    } catch (e) {
-        appendErrorMessage("Video Error: " + e.message);
-        return null;
-    }
-}
-*/
