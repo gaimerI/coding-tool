@@ -37,14 +37,18 @@ hashGenButton.addEventListener("click", async function() {
     const data = enc.encode(input.value);
     const digest = await crypto.subtle.digest(algorithm, data);
     const bytes = new Uint8Array(digest);
+
+    let result;
+    
     if (encoding === 'hex') {
-        const result = Array.from(bytes).map(b => b.toString(16).padStart(2,'0')).join('');
+        result = Array.from(bytes).map(b => b.toString(16).padStart(2,'0')).join('');
     }
     
     if (encoding === 'base64') {
-        const result = btoa(String.fromCharCode(...bytes));
+        result = btoa(String.fromCharCode(...bytes));
     }
     console.log(result);
+    navigator.clipboard.writeText(result);
     hashSpan.textContent = `File hash: ${result}`;
 })
 
