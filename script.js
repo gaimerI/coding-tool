@@ -575,3 +575,10 @@ function appendErrorMessage(message) {
     errorParagraph.textContent = message;
     errorOutput.appendChild(errorParagraph);
 }
+
+var imageEditor = new tui.component.ImageEditor('#my-image-editor canvas', {
+  cssMaxWidth: 1000,
+  cssMaxHeight: 800,
+});
+
+imageEditor.loadImageFromURL('https://upload.wikimedia.org/wikipedia/commons/0/06/Blue_merle_koolie_short_coat_heading_sheep_%28cropped%29.jpg', 'My sample image');
