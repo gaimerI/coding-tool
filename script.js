@@ -20,6 +20,8 @@ const fileNameInput = document.getElementById("file-name");
 const fileExtensionSelect = document.getElementById("file-extension");
 const consoleToggleCheckbox = document.getElementById('console-toggle');
 const editModeSelect = document.getElementById('edit-mode');
+const hashGenButton = document.getElementById('hash-button');
+const hashSpan = document.getElementById('file-hash');
 let defaultFileName = "text";
 let defaultFileExtension = "txt";
 
@@ -27,6 +29,19 @@ let startTime = performance.now();
 let elapsedTime = 0;
 let isPaused = false;
 let intervalId;
+
+hashGenButton.addEventListener("click", async function() {
+    const enc = new TextEncoder();
+    const encoding = 'hex';
+    const algorithm = 'SHA-256';
+    const data = enc.encode(input.value);
+    const digest = await crypto.subtle.digest(algorithm, data);
+    const bytes = new Uint8Array(digest);
+    if (encoding === 'hex') return Array.from(bytes).map(b => b.toString(16).padStart(2,'0')).join('');
+    if (encoding === 'base64') return btoa(String.fromCharCode(...bytes));
+    console.log(bytes);
+}
+})
 
 toggleModeBtn.addEventListener("click", () => {
     document.body.classList.toggle("dark-mode");
