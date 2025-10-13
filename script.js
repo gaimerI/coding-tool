@@ -73,7 +73,7 @@ uploadInput.addEventListener("change", (event) => {
   const file = event.target.files[0];
   if (!file) return;
 
-  const isText = file.type.startsWith("text/") || /\.(txt|csv|log|md|json|xml|html?|js|css|yaml|yml)$/i.test(file.name);
+  const isText = file.type.startsWith("text/") || /\.(txt|csv|log|md|json|xml|html?|js|css|yaml|yml|obj|svg)$/i.test(file.name);
 
   const reader = new FileReader();
 
