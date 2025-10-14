@@ -23,7 +23,6 @@ renderer.setAnimationLoop( animate );
 
 const input = document.getElementById("input");
 const preview = document.getElementById("preview");
-const threedee = document.querySelectorAll('[data-engine="three.js"]');
 const clearBtn = document.getElementById("clear");
 const toggleModeBtn = document.getElementById("toggle-mode");
 const runCodeBtn = document.getElementById("run-code");
@@ -240,6 +239,7 @@ async function main() {
 }
 
 editModeSelect.addEventListener('change', () => {
+  const threedee = document.querySelectorAll('[data-engine="three.js"]');
   const selected = Array.from(editModeSelect.selectedOptions, o => o.value);
   const showInput = selected.includes('input');
   const showPreview = selected.includes('output');
