@@ -5,7 +5,6 @@ const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.inner
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
-renderer.domElement.id = 'three';
 document.body.appendChild( renderer.domElement );
 
 const geometry = new THREE.BoxGeometry( 1, 1, 1 );
@@ -16,12 +15,15 @@ scene.add( cube );
 camera.position.z = 5;
 
 function animate() {
+  cube.rotation.x += 0.01;
+  cube.rotation.y += 0.01;
   renderer.render( scene, camera );
 }
 renderer.setAnimationLoop( animate );
 
 const input = document.getElementById("input");
 const preview = document.getElementById("preview");
+const threedee = document.querySelectorAll('[data-engine="three.js"]');
 const clearBtn = document.getElementById("clear");
 const toggleModeBtn = document.getElementById("toggle-mode");
 const runCodeBtn = document.getElementById("run-code");
@@ -238,16 +240,19 @@ async function main() {
 }
 
 editModeSelect.addEventListener('change', function() {
-    const selectedValue = editModeSelect.value;
-    if (selectedValue === 'input-only') {
+    const values = Array.from(editModeSelect.selectedOptions, opt => opt.value);
+    input.classList.add('hidden');
+    preview.classList.add('hidden');
+    threedee.classList.add('hidden');
+  
+    if (values.includes('input')) {
         input.classList.remove('hidden');
-        preview.classList.add('hidden');
-    } else if (selectedValue === 'output-only') {
-        input.classList.add('hidden');
+    }
+    if (values.includes('output')) {
         preview.classList.remove('hidden');
-    } else if (selectedValue === 'both') {
-        input.classList.remove('hidden');
-        preview.classList.remove('hidden');
+    }
+    if (values.includes('threedee')) {
+        threedee.classList.remove('hidden');
     }
 });
 
