@@ -1,78 +1,74 @@
 <!DOCTYPE html>
 
 <html lang="en">
-    <head>
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-        <link rel="manifest" href="/site.webmanifest">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Coding tool</title>
-        <link rel="shortcut icon" href="/favicon.png" />
 
-        <!-- Styles -->
-        <link rel="stylesheet" href="lib/prism.css" />
-        <!-- <link href="lib/jquery.highlight-within-textarea.css" rel="stylesheet" /> -->
-        <!-- <link rel="stylesheet" href="https://gaimeri.github.io/styles.css"> -->
-        <link rel="stylesheet" href="styles.css">
-        <link href="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.9/dist/css/autoComplete.02.min.css" rel="stylesheet">
+<head>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Coding tool</title>
+    <link rel="shortcut icon" href="/favicon.png" />
 
-        <script src="lib/prism.js"></script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
-        <!-- <script src="lib/jquery.highlight-within-textarea.js"></script> -->
-        <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-        <script src="https://cdn.jsdelivr.net/npm/eruda-benchmark"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.9/dist/autoComplete.min.js"></script>
-        <script>
-            eruda.init();
+    <!-- Styles -->
+    <link rel="stylesheet" href="lib/prism.css" />
+    <!-- <link href="lib/jquery.highlight-within-textarea.css" rel="stylesheet" /> -->
+    <!-- <link rel="stylesheet" href="https://gaimeri.github.io/styles.css"> -->
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.9/dist/css/autoComplete.02.min.css" rel="stylesheet">
+
+    <script src="lib/prism.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
+    <!-- <script src="lib/jquery.highlight-within-textarea.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+    <script src="https://cdn.jsdelivr.net/npm/eruda-benchmark"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.9/dist/autoComplete.min.js"></script>
+    <script>
+        eruda.init();
             eruda.add(erudaBenchmark);
-        </script>
-        <script src="lib/autoindent.js"></script>
-        <script type="importmap">
-            {
-                "imports": {
-                    "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
-                    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
-                }
-            }
-        </script>
-    </head>
+    </script>
+    <script src="lib/autoindent.js"></script>
+    <script type="importmap">
+        { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/" } }
+    </script>
+</head>
 
-    <body>
-        <div id="toolbar">
-            <div>
-                <button class="ui" id="clear">Clear</button>
-                <button class="ui" id="toggle-mode">Dark Mode</button>
-                <button class="ui" id="run-code">Run Code</button>
-                <button class="ui" id="download">Download</button>
-                <input type="file" id="upload" style="display: none;" />
-                <button class="ui" id="upload-btn">Upload</button>
+<body>
+    <div id="toolbar">
+        <div>
+            <button class="ui" id="clear">Clear</button>
+            <button class="ui" id="toggle-mode">Dark Mode</button>
+            <button class="ui" id="run-code">Run Code</button>
+            <button class="ui" id="download">Download</button>
+            <input type="file" id="upload" style="display: none;" />
+            <button class="ui" id="upload-btn">Upload</button>
 
-                <input type="text" id="auto-complete-search">
+            <input type="text" id="auto-complete-search">
 
-                <!-- details id the best looking dropdown i can find without using CSS -->
-                <details class="ui" id="settings-dropdown">
+            <!-- details id the best looking dropdown i can find without using CSS -->
+            <details class="ui" id="settings-dropdown">
                 <summary>Settings</summary>
-                    <ul class="settings-options ui">
-                        <li>
-                            Version 1.0
-                        </li>
-                        <li>
-                            <label for="font-select">Editor Font:</label>
-                            <select class="ui" id="font-select">
+                <ul class="settings-options ui">
+                    <li>
+                        Version 1.0
+                    </li>
+                    <li>
+                        <label for="font-select">Editor Font:</label>
+                        <select class="ui" id="font-select">
                                 <option value="sans-serif">Sans-Serif</option>
                                 <option value="serif">Serif</option>
                                 <option value="monospace" selected>Monospace</option>
                             </select>
-                        </li>
-                        <li>
-                            <label for="file-name">Default file name:</label>
-                            <input class="ui" id="file-name" type="text" placeholder="text">
-                        </li>
-                        <li>
-                            <label for="file-extension">Default file extension:</label>
-                            <select class="ui" id="file-extension">
+                    </li>
+                    <li>
+                        <label for="file-name">Default file name:</label>
+                        <input class="ui" id="file-name" type="text" placeholder="text">
+                    </li>
+                    <li>
+                        <label for="file-extension">Default file extension:</label>
+                        <select class="ui" id="file-extension">
                                 <option value="txt">.txt (Plaintext)</option>
                                 <option value="md">.md (Markdown)</option>
                                 <option value="html">.html (HyperText Markup Language)</option>
@@ -81,51 +77,51 @@
                                 <option value="md">.obj (Wavefront OBJ)</option>
                                 <option value="html">.csv (Comma Separated Values)</option>
                             </select>
-                        </li>
-                        <li>
-                            <label for="console-toggle">Toggle Console</label>
-                            <input type="checkbox" checked id="console-toggle">
-                        </li>
-                        <li>
-                            <label for="edit-mode">Editor mode:</label>
-                            <select class="ui" id="edit-mode" multiple>
+                    </li>
+                    <li>
+                        <label for="console-toggle">Toggle Console</label>
+                        <input type="checkbox" checked id="console-toggle">
+                    </li>
+                    <li>
+                        <label for="edit-mode">Editor mode:</label>
+                        <select class="ui" id="edit-mode" multiple>
                                 <option value="input" selected>Input</option>
                                 <option value="output" selected>Text output</option>
                                 <option value="threedee">3D Output</option>
                             </select>
-                        </li>
-                        <li>
-                            <button id="hash-button">Generate hash</button>
-                            <span id="file-hash">File hash: 2cf24dba5fb0a30e26e83b2ac5b0b4c0e1e1b1c1c1e1e1e1e1e1e1e1e1e1e1e1</span>
-                        </li>
-                    </ul>
-                </details>
-            </div>
-            
-            <span id="stats">Words: 0 | Characters: 0 | Reading Time: 0:00</span>
-            <div id="timer-controls">
-                <div id="timer">Time spent editing: 00:00:00</div>
-                <button class="ui" id="pause-timer">Pause</button>
-                <button class="ui" id="resume-timer">Resume</button>
-                <button class="ui" id="reset-timer">Reset</button>
-                <button class="ui" id="lap-timer">Lap</button>
-                <button class="ui" id="export-lap">Export Laps</button>
-                <ul class="ui" id="lap-list"></ul>
-            </div>
-
+                    </li>
+                    <li>
+                        <button id="hash-button">Generate hash</button>
+                        <span id="file-hash">File hash: 2cf24dba5fb0a30e26e83b2ac5b0b4c0e1e1b1c1c1e1e1e1e1e1e1e1e1e1e1e1</span>
+                    </li>
+                </ul>
+            </details>
         </div>
 
+        <span id="stats">Words: 0 | Characters: 0 | Reading Time: 0:00</span>
+        <div id="timer-controls">
+            <div id="timer">Time spent editing: 00:00:00</div>
+            <button class="ui" id="pause-timer">Pause</button>
+            <button class="ui" id="resume-timer">Resume</button>
+            <button class="ui" id="reset-timer">Reset</button>
+            <button class="ui" id="lap-timer">Lap</button>
+            <button class="ui" id="export-lap">Export Laps</button>
+            <ul class="ui" id="lap-list"></ul>
+        </div>
 
-        <main>
-            <textarea id="input" wrap="off" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" rows="15"></textarea>
-            <div id="preview" class="line-numbers linkable-line-numbers"></div>
-            <div class="threedee"></div>
-        </main>
+    </div>
 
-        <div id="error-output"></div>
+    <main>
+        <textarea id="input" wrap="off" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" rows="15"></textarea>
+        <div id="preview" class="line-numbers linkable-line-numbers"></div>
+        <div class="threedee"></div>
+    </main>
 
-        <!-- i <3 open-source -->
+    <div id="error-output"></div>
 
-        <script type="module" src="script.js"></script>
-    </body>
+    <!-- i <3 open-source -->
+
+    <script type="module" src="script.js"></script>
+</body>
+
 </html>
