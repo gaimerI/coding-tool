@@ -42,11 +42,11 @@ hashGenButton.addEventListener("click", async function() {
     const bytes = new Uint8Array(digest);
 
     let result;
-    
+
     if (encoding === 'hex') {
-        result = Array.from(bytes).map(b => b.toString(16).padStart(2,'0')).join('');
+        result = Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join('');
     }
-    
+
     if (encoding === 'base64') {
         result = btoa(String.fromCharCode(...bytes));
     }
@@ -97,35 +97,35 @@ downloadBtn.addEventListener("click", () => {
 uploadBtn.addEventListener("click", () => uploadInput.click());
 
 uploadInput.addEventListener("change", (event) => {
-  const file = event.target.files[0];
-  if (!file) return;
+    const file = event.target.files[0];
+    if (!file) return;
 
-  const isText = file.type.startsWith("text/") || /\.(txt|csv|log|md|json|xml|html?|js|css|yaml|yml|obj|svg)$/i.test(file.name);
+    const isText = file.type.startsWith("text/") || /\.(txt|csv|log|md|json|xml|html?|js|css|yaml|yml|obj|svg)$/i.test(file.name);
 
-  const reader = new FileReader();
+    const reader = new FileReader();
 
-  reader.onload = (e) => {
+    reader.onload = (e) => {
+        if (isText) {
+            input.value = e.target.result; // text content
+        } else {
+            // ArrayBuffer -> hex string
+            const bytes = new Uint8Array(e.target.result);
+            let hex = "";
+            for (let i = 0; i < bytes.length; i++) {
+                hex += bytes[i].toString(16).padStart(2, "0");
+                if (i % 16 === 15) hex += "\n";
+                else hex += " ";
+            }
+            input.value = hex;
+        }
+        handleInput();
+    };
+
     if (isText) {
-      input.value = e.target.result; // text content
+        reader.readAsText(file);
     } else {
-      // ArrayBuffer -> hex string
-      const bytes = new Uint8Array(e.target.result);
-      let hex = "";
-      for (let i = 0; i < bytes.length; i++) {
-        hex += bytes[i].toString(16).padStart(2, "0");
-        if (i % 16 === 15) hex += "\n";
-        else hex += " ";
-      }
-      input.value = hex;
+        reader.readAsArrayBuffer(file);
     }
-    handleInput();
-  };
-
-  if (isText) {
-    reader.readAsText(file);
-  } else {
-    reader.readAsArrayBuffer(file);
-  }
 });
 
 
@@ -178,7 +178,7 @@ document.addEventListener("keydown", (event) => {
     }
 });
 
-fontSelect.addEventListener("change", function () {
+fontSelect.addEventListener("change", function() {
     input.style.fontFamily = this.value;
 });
 
@@ -219,14 +219,14 @@ async function main() {
 }
 
 editModeSelect.addEventListener('change', () => {
-  const selected = Array.from(editModeSelect.selectedOptions, o => o.value);
-  const showInput = selected.includes('input');
-  const showPreview = selected.includes('output');
-  const show3D = selected.includes('threedee');
+    const selected = Array.from(editModeSelect.selectedOptions, o => o.value);
+    const showInput = selected.includes('input');
+    const showPreview = selected.includes('output');
+    const show3D = selected.includes('threedee');
 
-  input.classList.toggle('hidden', !showInput);
-  preview.classList.toggle('hidden', !showPreview);
-  threedee.classList.toggle('hidden', !show3D);
+    input.classList.toggle('hidden', !showInput);
+    preview.classList.toggle('hidden', !showPreview);
+    threedee.classList.toggle('hidden', !show3D);
 });
 
 // start
@@ -240,9 +240,10 @@ async function initializeData() {
         window.iconMap = await loadJSON('/coding-tool/data/iconMap.json');
         window.allowedIframeSources = await loadJSON('/coding-tool/data/allowedIframeSources.json');
         window.languageConfigs = await loadJSON('/coding-tool/data/languageConfigs.json');
-        window.inputReplacements = (await import('/coding-tool/data/inputReplacements.js')).default;
+        window.inputReplacements = (await
+            import ('/coding-tool/data/inputReplacements.js')).default;
         window.autocompleteSearchResults = await loadJSON('/coding-tool/data/autocomplete.json');
-        
+
         console.log("Did it", {
             iconMap,
             allowedIframeSources,
@@ -256,8 +257,8 @@ async function initializeData() {
 }
 
 async function loadJSON(url) {
-  const response = await fetch(url);
-  return response.json();
+    const response = await fetch(url);
+    return response.json();
 }
 
 function setupConsole() {
@@ -273,120 +274,119 @@ function setupConsole() {
     info.add('Date', () => new Intl.DateTimeFormat(navigator.language).format(Date.now()));
 
     let benchmark = eruda.get('benchmark');
-    benchmark.add('Array Cloning', [
-        {
+    benchmark.add('Array Cloning', [{
         name: 'Spread operator',
-        fn: function () {
+        fn: function() {
             const arr = [1, 2, 3, 4, 5];
             const clone = [...arr];
         }
-    },
-    {
+    }, {
         name: 'Slice method',
-        fn: function () {
+        fn: function() {
             const arr = [1, 2, 3, 4, 5];
             const clone = arr.slice();
         }
-    },
-    {
+    }, {
         name: 'Array.from',
-        fn: function () {
+        fn: function() {
             const arr = [1, 2, 3, 4, 5];
             const clone = Array.from(arr);
         }
-    }
-]);
+    }]);
 
-    benchmark.add('Multiplication: Math vs Bitwise', [
-    {
+    benchmark.add('Multiplication: Math vs Bitwise', [{
         name: 'Regular Multiply (x * 2)',
-        fn: function () {
+        fn: function() {
             let x = 42;
             x = x * 2;
         }
-    },
-    {
+    }, {
         name: 'Bitwise Shift (x << 1)',
-        fn: function () {
+        fn: function() {
             let x = 42;
             x = x << 1;
         }
-    }
-]);
+    }]);
 
-benchmark.add('Loop Performance', [
-    {
+    benchmark.add('Loop Performance', [{
         name: 'Standard for loop',
-        fn: function () {
+        fn: function() {
             const arr = new Array(1000).fill(1);
             for (let i = 0; i < arr.length; i++) {
                 arr[i] += 1;
             }
         }
-    },
-    {
+    }, {
         name: 'forEach loop',
-        fn: function () {
+        fn: function() {
             const arr = new Array(1000).fill(1);
-            arr.forEach((v, i, a) => { a[i] = v + 1; });
+            arr.forEach((v, i, a) => {
+                a[i] = v + 1;
+            });
         }
-    },
-    {
+    }, {
         name: 'for...of loop',
-        fn: function () {
+        fn: function() {
             let i = 0;
             const arr = new Array(1000).fill(1);
             for (const val of arr) {
                 arr[i++] = val + 1;
             }
         }
-    }
-]);
+    }]);
 
-    benchmark.add('Deep Copy (Simple Object)', [
-    {
+    benchmark.add('Deep Copy (Simple Object)', [{
         name: 'JSON.parse(JSON.stringify)',
-        fn: function () {
-            const obj = { a: 1, b: { c: 2, d: [3, 4] } };
+        fn: function() {
+            const obj = {
+                a: 1,
+                b: {
+                    c: 2,
+                    d: [3, 4]
+                }
+            };
             const clone = JSON.parse(JSON.stringify(obj));
         }
-    },
-    {
+    }, {
         name: 'Structured Clone (if available)',
-        fn: function () {
-            const obj = { a: 1, b: { c: 2, d: [3, 4] } };
+        fn: function() {
+            const obj = {
+                a: 1,
+                b: {
+                    c: 2,
+                    d: [3, 4]
+                }
+            };
             const clone = structuredClone(obj); // In modern browsers
         }
-    }
-]);
+    }]);
 
-    benchmark.add('String Replace vs Split/Join', [
-    {
+    benchmark.add('String Replace vs Split/Join', [{
         name: 'String.replaceAll',
-        fn: function () {
+        fn: function() {
             'a-b-c-d-e-f'.replaceAll('-', '_');
         }
-    },
-    {
+    }, {
         name: 'Split/Join',
-        fn: function () {
+        fn: function() {
             'a-b-c-d-e-f'.split('-').join('_');
         }
-    }
-]);
+    }]);
 
-        benchmark.add('Array Sorting', [
-    {
+    benchmark.add('Array Sorting', [{
         name: 'Native Array.sort()',
-        fn: function () {
-            const arr = Array.from({ length: 1000 }, () => Math.floor(Math.random() * 100));
+        fn: function() {
+            const arr = Array.from({
+                length: 1000
+            }, () => Math.floor(Math.random() * 100));
             arr.sort((a, b) => a - b);
         }
-    },
-    {
+    }, {
         name: 'Insertion Sort (Manual)',
-        fn: function () {
-            const arr = Array.from({ length: 1000 }, () => Math.floor(Math.random() * 100));
+        fn: function() {
+            const arr = Array.from({
+                length: 1000
+            }, () => Math.floor(Math.random() * 100));
             for (let i = 1; i < arr.length; i++) {
                 let key = arr[i];
                 let j = i - 1;
@@ -397,10 +397,9 @@ benchmark.add('Loop Performance', [
                 arr[j + 1] = key;
             }
         }
-    },
-    {
+    }, {
         name: 'Bogosort',
-        fn: function () {
+        fn: function() {
             const arr = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]; // Keep it small, please 🙏
             function isSorted(a) {
                 for (let i = 1; i < a.length; i++) {
@@ -408,6 +407,7 @@ benchmark.add('Loop Performance', [
                 }
                 return true;
             }
+
             function shuffle(a) {
                 for (let i = a.length - 1; i > 0; i--) {
                     const j = Math.floor(Math.random() * (i + 1));
@@ -418,8 +418,7 @@ benchmark.add('Loop Performance', [
                 shuffle(arr);
             }
         }
-    }
-]);
+    }]);
 
 
 }
@@ -427,7 +426,7 @@ benchmark.add('Loop Performance', [
 function handleInput() {
     errorOutput.textContent = "";
     let content = input.value;
-    
+
     // content = escapeHTML(content); // yes do put the raw chicken in the salad i love when my app gets xss
     content = content;
     let parsedHTML = marked.parse(content);
@@ -441,9 +440,9 @@ function handleInput() {
 }
 
 function setupAutocomplete() {
-const data = {
+    const data = {
         src: autocompleteSearchResults
-};
+    };
     const placeHolder = "Pizza, Burger, Sushi";
     const resultsList = {
         element(list, data) {
@@ -485,19 +484,19 @@ const data = {
 
 
 function insertTextAtCursor(text) {
-  const start = input.selectionStart;
-  const end = input.selectionEnd;
-  const before = input.value.substring(0, start);
-  const after = input.value.substring(end);
-  input.value = before + text + after;
-  input.selectionStart = input.selectionEnd = start + (text.length / 2);
+    const start = input.selectionStart;
+    const end = input.selectionEnd;
+    const before = input.value.substring(0, start);
+    const after = input.value.substring(end);
+    input.value = before + text + after;
+    input.selectionStart = input.selectionEnd = start + (text.length / 2);
 }
 
 function formatTime(seconds) {
-  const hrs = Math.floor(seconds / 3600);
-  const mins = Math.floor((seconds % 3600) / 60);
-  const secs = seconds % 60;
-  return `${hrs.toString().padStart(2, "0")}:${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+    const hrs = Math.floor(seconds / 3600);
+    const mins = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+    return `${hrs.toString().padStart(2, "0")}:${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
 }
 
 function updateTimer() {
@@ -535,30 +534,32 @@ function resetTimer() {
 }
 
 function recordLap() {
-  const lapTime = document.createElement("li");
-  lapTime.textContent = `Lap at: ${formatTime(elapsedTime)}`;
-  lapContainer.appendChild(lapTime);
+    const lapTime = document.createElement("li");
+    lapTime.textContent = `Lap at: ${formatTime(elapsedTime)}`;
+    lapContainer.appendChild(lapTime);
 }
 
 function exportLapTimes() {
-  const lapTimes = Array.from(lapContainer.children).map((lap) => lap.textContent);
-  const lapTimesText = lapTimes.join("\n");
-  const blob = new Blob([lapTimesText], { type: "text/plain" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "lap_times.txt";
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+    const lapTimes = Array.from(lapContainer.children).map((lap) => lap.textContent);
+    const lapTimesText = lapTimes.join("\n");
+    const blob = new Blob([lapTimesText], {
+        type: "text/plain"
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "lap_times.txt";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
 }
 
 function updateStats() {
     const text = input.value.trim();
-    const words = text ? text.match(/\b\w+\b/g)?.length || 0 : 0;
+    const words = text ? text.match(/\b\w+\b/g) ? .length || 0 : 0;
     const chars = text.length;
-    
+
     const wordsPerMinute = 200;
     const readingMinutes = words / wordsPerMinute;
     const minutes = Math.floor(readingMinutes);
@@ -577,22 +578,24 @@ function appendErrorMessage(message) {
 }
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
 const renderer = new THREE.WebGLRenderer();
-renderer.setSize( window.innerWidth, window.innerHeight );
-document.getElementById('threedee').appendChild( renderer.domElement );
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.getElementById('threedee').appendChild(renderer.domElement);
 
-const geometry = new THREE.BoxGeometry( 1, 1, 1 );
-const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-const cube = new THREE.Mesh( geometry, material );
-scene.add( cube );
+const geometry = new THREE.BoxGeometry(1, 1, 1);
+const material = new THREE.MeshBasicMaterial({
+    color: 0x00ff00
+});
+const cube = new THREE.Mesh(geometry, material);
+scene.add(cube);
 
 camera.position.z = 5;
 
 function animate() {
-  cube.rotation.x += 0.01;
-  cube.rotation.y += 0.01;
-  renderer.render( scene, camera );
+    cube.rotation.x += 0.01;
+    cube.rotation.y += 0.01;
+    renderer.render(scene, camera);
 }
-renderer.setAnimationLoop( animate );
+renderer.setAnimationLoop(animate);
