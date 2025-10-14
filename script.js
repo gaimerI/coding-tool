@@ -239,21 +239,15 @@ async function main() {
     handleInput(); // now start
 }
 
-editModeSelect.addEventListener('change', function() {
-    const values = Array.from(editModeSelect.selectedOptions, opt => opt.value);
-    input.classList.add('hidden');
-    preview.classList.add('hidden');
-    threedee.classList.add('hidden');
-  
-    if (values.includes('input')) {
-        input.classList.remove('hidden');
-    }
-    if (values.includes('output')) {
-        preview.classList.remove('hidden');
-    }
-    if (values.includes('threedee')) {
-        threedee.classList.remove('hidden');
-    }
+editModeSelect.addEventListener('change', () => {
+  const selected = Array.from(editModeSelect.selectedOptions, o => o.value);
+  const showInput = selected.includes('input');
+  const showPreview = selected.includes('output');
+  const show3D = selected.includes('threedee');
+
+  input.classList.toggle('hidden', !showInput);
+  preview.classList.toggle('hidden', !showPreview);
+  threedee.classList.toggle('hidden', !show3D);
 });
 
 // start
