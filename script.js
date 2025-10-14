@@ -490,7 +490,7 @@ function insertTextAtCursor(text) {
   const before = input.value.substring(0, start);
   const after = input.value.substring(end);
   input.value = before + text + after;
-  input.selectionStart = input.selectionEnd = start + text.length;
+  input.selectionStart = input.selectionEnd = start + (text.length / 2);
 }
 
 function formatTime(seconds) {
