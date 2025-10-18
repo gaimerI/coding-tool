@@ -557,7 +557,7 @@ function exportLapTimes() {
 
 function updateStats() {
     const text = input.value.trim();
-    const words = text ? text.match(/\b\w+\b/g) ? .length || 0 : 0;
+    const words = text ? text.match(/\b\w+\b/g) ? text.length || 0 : 0;
     const chars = text.length;
 
     const wordsPerMinute = 200;
