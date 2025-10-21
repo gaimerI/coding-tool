@@ -94,7 +94,7 @@ downloadBtn.addEventListener("click", () => {
 
 uploadBtn.addEventListener("click", () => uploadInput.click());
 
-uploadInput.addEventListener("change", (event) => {
+uploadInput.addEventListener("change", (event) => { // todo: split to hex and text inputs, maybe disable text input for non-text files
     const file = event.target.files[0];
     if (!file) return;
 
@@ -416,6 +416,24 @@ function setupConsole() {
             }
         }
     }]);
+}
+
+// i forgot these
+function textToHex(str) {
+    return Array.from(str)
+        .map(char => char.charCodeAt(0).toString(16).padStart(2, "0"))
+        .join("");
+}
+
+function hexToText(hex) {
+    try {
+        return hex
+            .match(/.{1,2}/g)
+            .map(byte => String.fromCharCode(parseInt(byte, 16)))
+            .join("");
+    } catch {
+        return "";
+    }
 }
 
 function syncHexWithText() {
