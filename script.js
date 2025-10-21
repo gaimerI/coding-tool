@@ -185,8 +185,11 @@ fileExtensionSelect.addEventListener("change", () => {
 });
 
 input.addEventListener("input", () => {
-    handleInput();
-    localStorage.setItem("editor-content", input.value);
+    syncHexWithText();
+});
+
+hexInput.addEventListener("input", () => {
+    syncTextWithHex();
 });
 
 consoleToggleCheckbox.addEventListener('change', function() {
@@ -413,8 +416,21 @@ function setupConsole() {
             }
         }
     }]);
+}
 
+function syncHexWithText() {
+    const text = input.value;
+    hexInput.value = textToHex(text);
+    localStorage.setItem("editor-content", text);
+    handleInput();
+}
 
+function syncTextWithHex() {
+    const hex = hexInput.value.replace(/\s+/g, "");
+    const text = hexToText(hex);
+    input.value = text;
+    localStorage.setItem("editor-content", text);
+    handleInput();
 }
 
 function handleInput() {
