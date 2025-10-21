@@ -420,15 +420,24 @@ function setupConsole() {
 
 // i forgot these
 function textToHex(str) {
-    return Array.from(str)
-        .map(char => char.charCodeAt(0).toString(16).padStart(2, "0"))
-        .join("");
+    const hexArray = Array.from(str).map(ch =>
+        ch.charCodeAt(0).toString(16).padStart(2, "0")
+    );
+
+    // Add spaces between bytes
+    const spaced = hexArray.join(" ");
+
+    // Add a newline every 16 bytes (32 hex chars + 15 spaces)
+    return spaced.replace(/((?:[0-9a-f]{2} ){15}[0-9a-f]{2}) /gi, "$1\n");
 }
 
 function hexToText(hex) {
     try {
-        return hex
-            .match(/.{1,2}/g)
+        // Remove all whitespace and non-hex characters
+        const cleanHex = hex.replace(/[^0-9a-f]/gi, "");
+        if (cleanHex.length % 2 !== 0) return ""; // must be full bytes
+        return cleanHex
+            .match(/.{2}/g)
             .map(byte => String.fromCharCode(parseInt(byte, 16)))
             .join("");
     } catch {
@@ -443,8 +452,9 @@ function syncHexWithText() {
     handleInput();
 }
 
+// Update text when hex changes
 function syncTextWithHex() {
-    const hex = hexInput.value.replace(/\s+/g, "");
+    const hex = hexInput.value;
     const text = hexToText(hex);
     input.value = text;
     localStorage.setItem("editor-content", text);
