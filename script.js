@@ -1,6 +1,6 @@
 const input = document.getElementById("input");
 const preview = document.getElementById("preview");
-const hexInput = document.getElementById('hex');
+const hexInput = document.getElementById('hexInput');
 const clearBtn = document.getElementById("clear");
 const toggleModeBtn = document.getElementById("toggle-mode");
 const runCodeBtn = document.getElementById("run-code");
