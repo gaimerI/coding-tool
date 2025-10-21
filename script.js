@@ -1,8 +1,6 @@
-import * as THREE from 'three';
-
 const input = document.getElementById("input");
 const preview = document.getElementById("preview");
-const threedee = document.getElementById('threedee');
+const hexInput = document.getElementById('hex');
 const clearBtn = document.getElementById("clear");
 const toggleModeBtn = document.getElementById("toggle-mode");
 const runCodeBtn = document.getElementById("run-code");
@@ -143,7 +141,6 @@ const pairs = {
     '(': '()',
     '[': '[]',
     '{': '{}',
-    "'": "''",
     '"': '""'
 };
 
@@ -158,21 +155,18 @@ input.addEventListener("keydown", (event) => {
 document.addEventListener("keydown", (event) => {
     if (event.ctrlKey && event.key === "b") {
         insertTextAtCursor("****");
-        input.selectionStart -= 4;
         event.preventDefault();
         handleInput()
     }
 
     if (event.ctrlKey && event.key === "i") {
         insertTextAtCursor("**");
-        input.selectionStart -= 2;
         event.preventDefault();
         handleInput()
     }
 
     if (event.ctrlKey && event.key === "k") {
         insertTextAtCursor("[text](url)");
-        input.selectionStart -= 8;
         event.preventDefault();
         handleInput()
     }
@@ -204,7 +198,7 @@ consoleToggleCheckbox.addEventListener('change', function() {
 });
 
 
-input.value = localStorage.getItem("editor-content") || "# Welcome to Tadi Lab\n\nWrite **Markdown**, HTML, and JavaScript here.";
+input.value = localStorage.getItem("editor-content") || "# Welcome to coding tool\n\nWrite **Markdown**, HTML, and JavaScript here.";
 if (localStorage.getItem("dark-mode") === "enabled") {
     document.body.classList.add("dark-mode");
 }
@@ -222,11 +216,11 @@ editModeSelect.addEventListener('change', () => {
     const selected = Array.from(editModeSelect.selectedOptions, o => o.value);
     const showInput = selected.includes('input');
     const showPreview = selected.includes('output');
-    const show3D = selected.includes('threedee');
+    const showHex = selected.includes('hex');
 
     input.classList.toggle('hidden', !showInput);
     preview.classList.toggle('hidden', !showPreview);
-    threedee.classList.toggle('hidden', !show3D);
+    hexInput.classList.toggle('hidden', !showHex);
 });
 
 // start
@@ -576,26 +570,3 @@ function appendErrorMessage(message) {
     errorParagraph.textContent = message;
     errorOutput.appendChild(errorParagraph);
 }
-
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-
-const renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.getElementById('threedee').appendChild(renderer.domElement);
-
-const geometry = new THREE.BoxGeometry(1, 1, 1);
-const material = new THREE.MeshBasicMaterial({
-    color: 0x00ff00
-});
-const cube = new THREE.Mesh(geometry, material);
-scene.add(cube);
-
-camera.position.z = 5;
-
-function animate() {
-    cube.rotation.x += 0.01;
-    cube.rotation.y += 0.01;
-    renderer.render(scene, camera);
-}
-renderer.setAnimationLoop(animate);
