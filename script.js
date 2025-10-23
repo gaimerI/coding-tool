@@ -466,7 +466,7 @@ function handleInput() {
     let content = input.value;
 
     // content = escapeHTML(content); // yes do put the raw chicken in the salad i love when my app gets xss
-    content = replaceInputs(content);
+    content = replaceIcons(content);
     let parsedHTML = marked.parse(content);
 
     // you don't believe how many hours fixing this took (just to comment it out later)
@@ -615,9 +615,8 @@ function appendErrorMessage(message) {
     errorOutput.appendChild(errorParagraph);
 }
 
-function replaceInputs(text) {
-    return inputReplacements.reduce((acc, {
-        regex,
-        template
-    }) => acc.replace(regex, template),text);
+function replaceIcons(text) {
+  return text.replace(/:icon type="([^"]+)":/g, (match, type) => {
+    return iconMap[type] || type;
+  });
 }
