@@ -466,7 +466,7 @@ function handleInput() {
     let content = input.value;
 
     // content = escapeHTML(content); // yes do put the raw chicken in the salad i love when my app gets xss
-    content = content;
+    content = replaceInputs(content);
     let parsedHTML = marked.parse(content);
 
     // you don't believe how many hours fixing this took (just to comment it out later)
@@ -613,4 +613,11 @@ function appendErrorMessage(message) {
     errorParagraph.style.color = "red";
     errorParagraph.textContent = message;
     errorOutput.appendChild(errorParagraph);
+}
+
+function replaceInputs(text) {
+    return inputReplacements.reduce((acc, {
+        regex,
+        template
+    }) => acc.replace(regex, template),text);
 }
